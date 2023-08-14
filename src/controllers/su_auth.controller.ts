@@ -66,7 +66,7 @@ const requestSuperAdminAccountActivation =
         })
 
         return res.status(200).json({
-            status: 'success',
+            success: true,
             message: 'Super admin account activation code sent to user email',
             data: {
                 access_token: (await generateAuthTokens(existing_su, 'su_activation')).access_token
@@ -106,7 +106,7 @@ const activateSuperAdminAccount =
         })
 
         res.status(200).json({
-            status: 'success',
+            success: true,
             message: 'Super admin account activated',
             data: null
         })
@@ -164,7 +164,7 @@ const requestSuperAdminAccountDeactivation =
         })
 
         return res.status(200).json({
-            status: 'success',
+            success: true,
             message: 'Super admin account deactivation code sent to user email',
             data: {
                 access_token: (await generateAuthTokens(existing_su, 'su_deactivation')).access_token
@@ -206,7 +206,7 @@ const deactivateSuperAdminAccount =
         })
 
         res.status(200).json({
-            status: 'success',
+            success: true,
             message: 'Super admin account deactivated',
             data: null
         })

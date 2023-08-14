@@ -10,7 +10,7 @@ import { sendEmail } from '../services/email.service';
 import { Email } from '../types';
 import { AuthenticatedRequest } from '../types';
 import { Status, IStatusDoc } from '../models/status.model';
-import { User, IUserDoc,} from '../models/user.model';
+import { User, IUserDoc, } from '../models/user.model';
 import { IPasswordDoc, Password } from '../models/password.model';
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from '../utils/errors';
 import { ProfileData, UserRole, UserWithStatus } from '../models/types/user.types';
@@ -23,9 +23,10 @@ import { Types } from 'mongoose'
 
 const userSignup = async (req: Request, res: Response, next: NextFunction) => {
     const {
-        email, firstname, lastname,
-        password, role,
+        email, firstname, lastname, password,
     } = req.body;
+
+    const role = 'SuperAdmin'
     const userInfo = {
         email: email as Email,
         firstname: firstname as string,
@@ -45,10 +46,10 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
     let user: IUserDoc | undefined;
     const session = await mongoose.startSession()
     await session.withTransaction(async () => {
-            user = (await User.create([userInfo], { session }))[0]
+        user = (await User.create([userInfo], { session }))[0]
 
         if (user) {
-            const profileData = { ...userInfo } as ProfileData<'SuperAdmin'>
+            const profileData = userInfo as ProfileData<'SuperAdmin'>
 
             // Create users profile
             const profile = await user.createProfile(profileData, session);
@@ -66,10 +67,9 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
 
     // Get access token
     const populatedUser: UserWithStatus = await user.populate<UserWithStatus>('status')
-    return await handleUnverifiedUser(populatedUser.toObject(), res);
+    return await handleUnverifiedUser(populatedUser, res);
     // TODO: Send welcome email after signup
 };
-
 
 const resendVerificationEmail = async (req: Request, res: Response, next: NextFunction) => {
     const email: Email = req.query.email as Email;
@@ -84,7 +84,7 @@ const resendVerificationEmail = async (req: Request, res: Response, next: NextFu
     // Check if user is unverified
     user.status?.isVerified
         ? next(new BadRequestError("User's email already verified"))
-        : await handleUnverifiedUser(user.toObject(), res);
+        : await handleUnverifiedUser(user, res);
 }
 
 const verifyUserEmail = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -126,7 +126,7 @@ const verifyUserEmail = async (req: AuthenticatedRequest, res: Response, next: N
     })
 
     res.status(200).send({
-        status: 'success',
+        success: true,
         message: 'User verified',
         data: {
             user: { ...user, ...sensitiveFilter },
@@ -153,12 +153,12 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
         text: `Your password reset code is ${passwordResetCode}`,
     });
 
-    
+
     // Get access token
-    const { access_token } = await generateAuthTokens(user.toObject(), 'password_reset');
+    const { access_token } = await generateAuthTokens(user, 'password_reset');
 
     return res.status(200).send({
-        status: 'success',
+        success: true,
         message: 'Password reset code sent to user email',
         data: {
             user: { ...user.toObject(), ...sensitiveFilter },
@@ -171,13 +171,13 @@ const resetPassword = async (req: AuthenticatedRequest, res: Response, next: Nex
     const { password_reset_code: passwordResetCode, new_password: newPassword } = req.body;
 
     // Check if password reset code is correct
-    const auth_code = await getAuthFromCacheMemory({
+    const authCode = await getAuthFromCacheMemory({
         authClass: 'code',
         type: 'password_reset',
         email: req.user.email
     })
 
-    const validPasswordResetCode = auth_code && (auth_code == passwordResetCode.toString())
+    const validPasswordResetCode = authCode && (authCode == passwordResetCode.toString())
     if (!validPasswordResetCode) {
         return next(new BadRequestError('Invalid password reset code'));
     }
@@ -202,7 +202,7 @@ const resetPassword = async (req: AuthenticatedRequest, res: Response, next: Nex
     })
 
     res.status(200).send({
-        status: 'success',
+        success: true,
         message: 'Password reset successful',
         data: {
             user: { ...req.user, ...sensitiveFilter },
@@ -234,8 +234,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     const passwordIsCorrect = await user.password.comparePassword(password);
     if (!passwordIsCorrect) return next(new BadRequestError('Incorrect password'));
 
-     // Get access token
-    const { access_token, refresh_token } = await generateAuthTokens(user.toObject(), 'access');
+    // Get access token
+    const { access_token, refresh_token } = await generateAuthTokens(user, 'access');
 
     const tokenBind = randomUUID()
     await saveTokenToCacheMemory({
@@ -252,7 +252,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     return res.status(200).send({
-        status: 'success',
+        success: true,
         message: 'User logged in',
         data: {
             user: { ...user.toObject(), ...sensitiveFilter },
@@ -283,7 +283,7 @@ const logout = async (req: AuthenticatedRequest, res: Response) => {
     })
 
     res.status(200).send({
-        status: 'success',
+        success: true,
         message: 'User logged out',
         data: null,
     });
@@ -305,7 +305,7 @@ const deactivateUserAccount = async (req: AuthenticatedRequest, res: Response, n
     await user.status.save();
 
     res.status(200).send({
-        status: 'success',
+        success: true,
         data: null
     })
 }
@@ -326,7 +326,7 @@ const activateUserAccount = async (req: AuthenticatedRequest, res: Response, nex
     await user.status.save();
 
     res.status(200).send({
-        status: 'success',
+        success: true,
         data: null
     })
 }
@@ -417,7 +417,7 @@ const googleSignin = async (req: Request, res: Response, next: NextFunction) => 
     });
 
     res.status(200).send({
-        status: 'success',
+        success: true,
         message: 'User logged in',
         data: {
             user: { ...curr_user.toObject(), ...sensitiveFilter },
@@ -426,8 +426,6 @@ const googleSignin = async (req: Request, res: Response, next: NextFunction) => 
         },
     });
 }
-// const uploadDocumentsForVerification = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-// }
 
 export {
     userSignup,
