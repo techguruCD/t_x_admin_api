@@ -229,7 +229,6 @@ async function generateAuthCodes<T extends AuthCode>
 async function generateAuthTokens
     (user: UserWithStatus, tokenType: AuthToken = 'access')
     : Promise<{ access_token: string; refresh_token: string | undefined }> {
-
     const userProfile = await user.getProfile()
     const data = { ...user.toObject(), profile: userProfile } as UserWithProfileAndStatus
 
@@ -286,10 +285,10 @@ async function handleUnverifiedUser
     const { access_token } = await generateAuthTokens(unverifiedUser, 'verification');
 
     return res.status(200).send({
-        status: 'success',
+        success: true,
         message: 'Verification code sent to user email',
         data: {
-            user: { ...unverifiedUser, ...sensitiveFilter },
+            user: { ...unverifiedUser.toObject(), ...sensitiveFilter },
             access_token,
         },
     });

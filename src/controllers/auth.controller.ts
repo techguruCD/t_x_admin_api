@@ -20,6 +20,7 @@ import { PopulateEmbeddedDoc } from '../models/types/typeutil';
 import { JWT_REFRESH_EXP, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../config';
 import { OAuth2Client } from 'google-auth-library';
 import { Types } from 'mongoose'
+import logger from '../middlewares/winston';
 
 const userSignup = async (req: Request, res: Response, next: NextFunction) => {
     const {
@@ -427,6 +428,33 @@ const googleSignin = async (req: Request, res: Response, next: NextFunction) => 
     });
 }
 
+const getLoggedInUsersData = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    res.status(200).send({
+        success: true,
+        message: 'User is logged in',
+        data: {
+            user: { ...req.user, ...sensitiveFilter }
+        }
+    })
+}
+
+const exchangeAuthTokens = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    const user = await User.findById(req.user._id).populate<UserWithStatus>('status')
+    if (!user) {
+        logger.error("Authenticated user but no existing record found in database")
+        return next(new InternalServerError('An error occured'))
+    }
+    const { access_token } = await generateAuthTokens(user, 'access')
+
+    res.status(200).send({
+        success: true,
+        message: 'Successfully exchanged auth tokens',
+        data: {
+            access_token,
+        }
+    })
+}
+
 export {
     userSignup,
     resendVerificationEmail,
@@ -434,7 +462,9 @@ export {
     forgotPassword,
     resetPassword,
     login, logout,
+    getLoggedInUsersData,
     googleSignin,
     deactivateUserAccount,
     activateUserAccount,
+    exchangeAuthTokens
 };
