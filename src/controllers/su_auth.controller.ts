@@ -4,11 +4,11 @@ import {
     generateAuthCodes, generateAuthTokens, getAuthFromCacheMemory, deleteAuthFromCacheMemory,
 } from '../services/auth.service';
 import { sendEmail } from '../services/email.service';
-import { Email, UserWithStatus } from '../types';
-import { AuthenticatedRequest } from '../types/global';
+import { AuthenticatedRequest, Email } from '../types';
 import { Status } from '../models/status.model';
 import { User } from '../models/user.model';
 import { BadRequestError } from '../utils/errors';
+import { UserWithStatus } from '../models/types/user.types';
 
 const requestSuperAdminAccountActivation =
     async (req: Request, res: Response, next: NextFunction) => {

@@ -7,8 +7,6 @@ import {
     login,
     activateUserAccount,
     deactivateUserAccount,
-    createAdminAccount,
-    activateAdminAccount,
     googleSignin
 } from '../controllers/auth.controller';
 import {
@@ -28,8 +26,6 @@ const router = Router();
 router
     .get('/authtoken', basicAuth())
     .post('/signup', validator(schema.userSignup), userSignup)
-    .post('/newadmin', basicAuth(), permit(['SuperAdmin']), withAuthentication(createAdminAccount))
-    .post('/newadmin/activate', activateAdminAccount)
     .get(
         '/verificationemail',
         validator(schema.resendVerificationEmail),

@@ -7,17 +7,14 @@ import {
     saveTokenToCacheMemory, sensitiveFilter
 } from '../services/auth.service';
 import { sendEmail } from '../services/email.service';
-import { Email, WithPopulated, UserWithStatus } from '../types';
-import { AuthenticatedRequest } from '../types/global';
+import { Email } from '../types';
+import { AuthenticatedRequest } from '../types';
 import { Status, IStatusDoc } from '../models/status.model';
-import { User, IUserDoc, IVendorDoc, Vendor, IAdminDoc, Admin } from '../models/user.model';
+import { User, IUserDoc,} from '../models/user.model';
 import { IPasswordDoc, Password } from '../models/password.model';
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from '../utils/errors';
-import { ProfileData, UserRole } from '../models/types/user.types';
+import { ProfileData, UserRole, UserWithStatus } from '../models/types/user.types';
 import { randomUUID } from 'crypto';
-import { Document, DocumentSubmissionRequest } from '../models/docs.model';
-import sendSMS, { PhoneNumber } from '../services/sms.service';
-import { createAdminProfile } from '../models/profile';
 import * as CONFIG from '../config';
 import { PopulateEmbeddedDoc } from '../models/types/typeutil';
 import { JWT_REFRESH_EXP, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../config';
@@ -38,7 +35,7 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
     };
 
     // Check if user already exists
-    type UserWithStatus = WithPopulated<IUserDoc, 'status', IStatusDoc>;
+    type UserWithStatus = PopulateEmbeddedDoc<IUserDoc, 'status', IStatusDoc>;
     const existingUserDoc = await User.findOne({ email }).populate<UserWithStatus>('status');
     const existingUser: UserWithStatus | undefined = existingUserDoc?.toObject();
 
@@ -156,14 +153,7 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
         text: `Your password reset code is ${passwordResetCode}`,
     });
 
-    const phone_number = user.phone_number
-    if (phone_number) {
-        sendSMS({
-            phoneNumber: phone_number as PhoneNumber,
-            body: `Your Password verification code is ${passwordResetCode}`,
-        })
-    }
-
+    
     // Get access token
     const { access_token } = await generateAuthTokens(user.toObject(), 'password_reset');
 
@@ -377,20 +367,20 @@ const googleSignin = async (req: Request, res: Response, next: NextFunction) => 
             firstname: payload.given_name,
             lastname: payload.family_name,
             email: payload.email as Email,
-            role: 'EndUser',
+            role: 'SuperAdmin',
             password: random_str,
             googleId: payload.sub,
             // wishlist: '' as unknown as Types.ObjectId,
             // cart: '' as unknown as Types.ObjectId
-        } as ProfileData<'EndUser'> & { password: string }
+        } as ProfileData<'SuperAdmin'> & { password: string }
 
         const session = await mongoose.startSession()
         await session.withTransaction(async () => {
             user = await User.create([user_info], { session }).then(doc => doc[0])
             if (user) {
                 const profile_data =
-                    user_info.role === 'EndUser'
-                        ? { ...user_info } as ProfileData<'EndUser'>
+                    user_info.role === 'SuperAdmin'
+                        ? { ...user_info } as ProfileData<'SuperAdmin'>
                         : undefined
 
                 // Create users profile

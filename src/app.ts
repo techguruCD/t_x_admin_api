@@ -3,7 +3,7 @@ import 'express-async-errors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import cors, { CorsOptions } from 'cors';
-import { NODE_ENV, ALLOWED_ORIGINS } from './config';
+import { NODE_ENV } from './config';
 import errorHandler from './middlewares/error-handler';
 import routeHandler from './routes';
 import cookieParser from 'cookie-parser';
@@ -18,17 +18,7 @@ function initMiddlewares(app: Application) {
         app.use(morgan('dev'))
     }
 
-    const corsOptions: CorsOptions = {
-        origin: function (origin, callback) {
-            const originIsPermitted = origin && ALLOWED_ORIGINS.includes(origin)
-            if (originIsPermitted) {
-                callback(null, true)
-            } else {
-                callback(new Error('Not allowed by CORS'))
-            }
-        }
-    }
-    app.use(cors(corsOptions));
+    app.use(cors());
 
     app.use(express.json())
 

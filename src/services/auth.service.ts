@@ -48,12 +48,6 @@ function getJWTConfigVariables(jwtTokenType: AuthToken): {
                 expiry: config.JWT_EMAILVERIFICATION_EXP,
             };
 
-        case 'otp':
-            return {
-                secret: config.JWT_EMAILVERIFICATION_SECRET,
-                expiry: config.JWT_EMAILVERIFICATION_EXP,
-            };
-
         case 'su_activation':
             return {
                 secret: config.JWT_SUPERADMINACTIVATION_SECRET,
@@ -317,5 +311,7 @@ export {
     getAuthFromCacheMemory,
     saveTokenToCacheMemory,
     deleteAuthFromCacheMemory,
+    generateAuthCodes,
     sensitiveFilter, getJWTConfigVariables, generateAuthTokens,
+    handleExistingUser, handleUnverifiedUser
 };
