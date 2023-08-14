@@ -61,6 +61,18 @@ user_schema.virtual('status', {
 user_schema.pre('validate', async function (next) {
     if (this.isNew) {
         const status = new Status({ user: this._id });
+
+        /**
+         * Activate user on signup
+         * 
+         * If we intend to switch to a more strict auth flow rather
+         * than the current basic flow we can set it to FALSE
+         * 
+         * If set to TRUE, SUPERADMINS will not be required to 
+         * request for account activation
+         */
+        status.isActive = true;
+
         await status.save();
     }
 

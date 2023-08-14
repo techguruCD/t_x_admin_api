@@ -5,8 +5,7 @@ export const userSignup = z.object({
         email: z.string().email(),
         firstname: z.string(),
         lastname: z.string(),
-        password: z.string().min(8).trim(),
-        role: z.enum(['SuperAdmin']),
+        password: z.string().min(8).trim()
     })
 });
 

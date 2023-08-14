@@ -7,7 +7,9 @@ import {
     login,
     activateUserAccount,
     deactivateUserAccount,
-    googleSignin
+    googleSignin,
+    getLoggedInUsersData,
+    exchangeAuthTokens
 } from '../controllers/auth.controller';
 import {
     requestSuperAdminAccountActivation,
@@ -24,7 +26,6 @@ import rateLimiter from '../middlewares/rate-limiter'
 const router = Router();
 
 router
-    .get('/authtoken', basicAuth())
     .post('/signup', validator(schema.userSignup), userSignup)
     .get(
         '/verificationemail',
@@ -64,10 +65,10 @@ router
         basicAuth(),
         permit(['SuperAdmin']),
         withAuthentication(deactivateUserAccount))
-    .get('/loggedinuser', basicAuth())
-    .get('/user', basicAuth())
+    .get('/authtoken', basicAuth('refresh'), withAuthentication(exchangeAuthTokens))
+    .get('/loggedinuser', basicAuth(), withAuthentication(getLoggedInUsersData))
 
-// router.use(permit(['SuperAdmin']))
+router.use(permit(['SuperAdmin']))
 router
     .get(
         '/su/requestactivation',
