@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import * as config from '../config';
 import redisClient from '../database/redis';
 import { IStatusDoc } from '../models/types/status.types';
-import { IUserDoc, UserWithProfileAndStatus, UserWithStatus } from '../models/types/user.types';
+import { IAdminDoc, AdminWithStatus } from '../models/types/user.types';
 import { User } from '../models/user.model';
 import { Email, AuthCode, AuthToken } from '../types';
 import { BadRequestError } from '../utils/errors';
@@ -66,7 +66,7 @@ function getJWTConfigVariables(jwtTokenType: AuthToken): {
     }
 }
 
-async function deleteAuthForUser(user: IUserDoc) {
+async function deleteAuthForUser(user: IAdminDoc) {
     const { email } = user
 
     const type = [
@@ -160,7 +160,7 @@ type getAuthCodesResponse = {
     }
 }
 async function generateAuthCodes<T extends AuthCode>
-    (user: IUserDoc, codeType: T)
+    (user: IAdminDoc, codeType: T)
     : Promise<getAuthCodesResponse[T]> {
 
     // 4 digit random number
@@ -227,10 +227,9 @@ async function generateAuthCodes<T extends AuthCode>
 }
 
 async function generateAuthTokens
-    (user: UserWithStatus, tokenType: AuthToken = 'access')
+    (user: AdminWithStatus, tokenType: AuthToken = 'access')
     : Promise<{ access_token: string; refresh_token: string | undefined }> {
-    const userProfile = await user.getProfile()
-    const data = { ...user.toObject(), profile: userProfile } as UserWithProfileAndStatus
+    const data = user.toObject() as AdminWithStatus
 
     // Access token usecase may vary, so we can't use the same secret for all
     const { secret, expiry } = getJWTConfigVariables(tokenType);
@@ -267,7 +266,7 @@ async function generateAuthTokens
 }
 
 async function handleUnverifiedUser
-    (unverifiedUser: UserWithStatus, res: Response)
+    (unverifiedUser: AdminWithStatus, res: Response)
     : Promise<Response> {
 
     // Get verificateion code
@@ -295,7 +294,7 @@ async function handleUnverifiedUser
 }
 
 async function handleExistingUser(
-    existingUser: UserWithStatus, res: Response, next: NextFunction)
+    existingUser: AdminWithStatus, res: Response, next: NextFunction)
     : Promise<Response | NextFunction> {
 
     const response =

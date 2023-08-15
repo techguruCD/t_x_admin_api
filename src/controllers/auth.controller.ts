@@ -2,72 +2,67 @@ import mongoose from 'mongoose';
 import { Request, Response, NextFunction } from 'express';
 import {
     deleteAuthFromCacheMemory,
-    generateAuthCodes, getAuthFromCacheMemory, generateAuthTokens,
-    handleExistingUser, handleUnverifiedUser,
-    saveTokenToCacheMemory, sensitiveFilter
+    generateAuthCodes,
+    getAuthFromCacheMemory,
+    generateAuthTokens,
+    handleExistingUser,
+    handleUnverifiedUser,
+    saveTokenToCacheMemory,
+    sensitiveFilter,
 } from '../services/auth.service';
 import { sendEmail } from '../services/email.service';
 import { Email } from '../types';
 import { AuthenticatedRequest } from '../types';
-import { Status, IStatusDoc } from '../models/status.model';
-import { User, IUserDoc, } from '../models/user.model';
+import { Status } from '../models/status.model';
+import { Admin } from '../models/user.model';
 import { IPasswordDoc, Password } from '../models/password.model';
-import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from '../utils/errors';
-import { ProfileData, UserRole, UserWithStatus } from '../models/types/user.types';
+import {
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    NotFoundError,
+} from '../utils/errors';
+import { AdminWithStatus, IAdminDoc } from '../models/types/user.types';
 import { randomUUID } from 'crypto';
-import * as CONFIG from '../config';
 import { PopulateEmbeddedDoc } from '../models/types/typeutil';
-import { JWT_REFRESH_EXP, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../config';
-import { OAuth2Client } from 'google-auth-library';
-import { Types } from 'mongoose'
+import { JWT_REFRESH_EXP } from '../config';
 import logger from '../middlewares/winston';
 
 const userSignup = async (req: Request, res: Response, next: NextFunction) => {
-    const {
-        email, firstname, lastname, password,
-    } = req.body;
+    const { email, firstname, lastname, password } = req.body;
 
-    const role = 'SuperAdmin'
+    const role = 'SuperAdmin';
     const userInfo = {
         email: email as Email,
         firstname: firstname as string,
         lastname: lastname as string,
         password: password as string,
-        role: role as UserRole,
     };
 
     // Check if user already exists
-    type UserWithStatus = PopulateEmbeddedDoc<IUserDoc, 'status', IStatusDoc>;
-    const existingUserDoc = await User.findOne({ email }).populate<UserWithStatus>('status');
-    const existingUser: UserWithStatus | undefined = existingUserDoc?.toObject();
+    const existingUser: AdminWithStatus | null = await Admin.findOne({
+        email,
+    }).populate<AdminWithStatus>('status');
 
-    if (existingUser) return await handleExistingUser(existingUser, res, next);
+    if (existingUser) {
+        return await handleExistingUser(existingUser, res, next);
+    }
 
     // Create new user in session
-    let user: IUserDoc | undefined;
-    const session = await mongoose.startSession()
+    let user: IAdminDoc | undefined;
+    const session = await mongoose.startSession();
     await session.withTransaction(async () => {
-        user = (await User.create([userInfo], { session }))[0]
+        user = (await Admin.create([userInfo], { session }))[0];
 
-        if (user) {
-            const profileData = userInfo as ProfileData<'SuperAdmin'>
-
-            // Create users profile
-            const profile = await user.createProfile(profileData, session);
-
-            // Create password
-            await Password.create([{ user: user._id, password }], { session });
-        }
-
+        await Password.create([{ user: user._id, password }], { session });
         await session.commitTransaction();
         session.endSession();
     });
 
-    // If user is not created throw error
     if (!user) throw new BadRequestError('An error occurred');
 
     // Get access token
-    const populatedUser: UserWithStatus = await user.populate<UserWithStatus>('status')
+    const populatedUser = await user.populate<AdminWithStatus>('status');
     return await handleUnverifiedUser(populatedUser, res);
     // TODO: Send welcome email after signup
 };
@@ -75,87 +70,73 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
 const resendVerificationEmail = async (req: Request, res: Response, next: NextFunction) => {
     const email: Email = req.query.email as Email;
 
-    // Get user
-    const user: IUserDoc & { status: IStatusDoc } | null
-        = await User.findOne({ email }).populate('status');
+    const user = await Admin.findOne({ email }).populate<AdminWithStatus>('status');
 
-    // Check if user exists
-    if (!user) return next(new BadRequestError('User does not exist'));
+    if (!user) {
+        return next(new BadRequestError('Admin does not exist'));
+    }
 
-    // Check if user is unverified
     user.status?.isVerified
-        ? next(new BadRequestError("User's email already verified"))
+        ? next(new BadRequestError("Admin's email already verified"))
         : await handleUnverifiedUser(user, res);
-}
+};
 
 const verifyUserEmail = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const verificationCode: number = req.body.verification_code;
 
-    // Get user
-    const user = req.user
-    if (user.status.isVerified) return next(new BadRequestError('User already verified'));
+    const user = req.user;
+    if (user.status.isVerified) {
+        return next(new BadRequestError('Admin already verified'));
+    }
 
-    // // Check if verification code is correct
     const authCode = await getAuthFromCacheMemory({
         authClass: 'code',
         type: 'verification',
-        email: req.user.email
-    })
+        email: req.user.email,
+    });
 
-    const validVerificationCode = authCode && (authCode == verificationCode.toString())
+    const validVerificationCode = authCode && authCode == verificationCode.toString();
     if (!validVerificationCode) {
-        throw new NotFoundError('Invalid verification code')
+        throw new NotFoundError('Invalid verification code');
     }
 
-    // // Verify user
-    const dataToUpdate = { isVerified: true }
+    await Status.findOneAndUpdate({ user: user._id }, { isVerified: true });
 
-    await Status.findOneAndUpdate({ user: user._id }, dataToUpdate);
-
-    // Blacklist access token
     deleteAuthFromCacheMemory({
         authClass: 'token',
         type: 'verification',
-        email: req.user.email
-    })
+        email: req.user.email,
+    });
 
-    // Delete verification code
     deleteAuthFromCacheMemory({
         authClass: 'code',
         type: 'verification',
-        email: req.user.email
-    })
+        email: req.user.email,
+    });
 
     res.status(200).send({
         success: true,
-        message: 'User verified',
+        message: 'Admin verified',
         data: {
             user: { ...user, ...sensitiveFilter },
         },
     });
-}
+};
 
 const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
     const email: Email = req.body.email;
 
-    // Get user
-    const user: UserWithStatus | null = await User.findOne({ email }).populate('status');
+    const user = await Admin.findOne({ email }).populate<AdminWithStatus>('status');
+    if (!user) return next(new BadRequestError('Admin does not exist'));
 
-    // Check if user exists
-    if (!user) return next(new BadRequestError('User does not exist'));
-
-    // Get password reset code
     const { passwordResetCode } = await generateAuthCodes<'password_reset'>(user, 'password_reset');
 
-    // Send password reset email
     sendEmail({
         to: email,
         subject: 'Reset your password',
         text: `Your password reset code is ${passwordResetCode}`,
     });
 
-
-    // Get access token
     const { access_token } = await generateAuthTokens(user, 'password_reset');
 
     return res.status(200).send({
@@ -166,7 +147,7 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
             access_token,
         },
     });
-}
+};
 
 const resetPassword = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const { password_reset_code: passwordResetCode, new_password: newPassword } = req.body;
@@ -175,10 +156,10 @@ const resetPassword = async (req: AuthenticatedRequest, res: Response, next: Nex
     const authCode = await getAuthFromCacheMemory({
         authClass: 'code',
         type: 'password_reset',
-        email: req.user.email
-    })
+        email: req.user.email,
+    });
 
-    const validPasswordResetCode = authCode && (authCode == passwordResetCode.toString())
+    const validPasswordResetCode = authCode && authCode == passwordResetCode.toString();
     if (!validPasswordResetCode) {
         return next(new BadRequestError('Invalid password reset code'));
     }
@@ -195,12 +176,12 @@ const resetPassword = async (req: AuthenticatedRequest, res: Response, next: Nex
         authClass: 'code',
         type: 'password_reset',
         email: req.user.email,
-    })
+    });
     await deleteAuthFromCacheMemory({
         authClass: 'token',
         type: 'password_reset',
         email: req.user.email,
-    })
+    });
 
     res.status(200).send({
         success: true,
@@ -209,42 +190,44 @@ const resetPassword = async (req: AuthenticatedRequest, res: Response, next: Nex
             user: { ...req.user, ...sensitiveFilter },
         },
     });
-}
+};
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
-    const { email, phone_number, password } = req.body;
+    const { email, password } = req.body;
 
-    // Get user
-    type UserWithStatusAndPassword = UserWithStatus & { password: IPasswordDoc }
-    const userDocQuery = {} as any
-    if (email) userDocQuery.email = email
-    else if (phone_number) userDocQuery.phone_number = phone_number
-    else {
-        throw new BadRequestError('Missing required field in requrest parameters')
+    type AdminWithStatusAndPassword = PopulateEmbeddedDoc<
+        AdminWithStatus,
+        'password',
+        IPasswordDoc
+    >;
+    const user = await Admin.findOne({ email }).populate<AdminWithStatusAndPassword>(
+        'status password'
+    );
+
+    if (!user) return next(new BadRequestError('Admin does not exist'));
+
+    if (!user.status.isVerified) {
+        return next(new BadRequestError('Admin is not verified'));
     }
-    const user: UserWithStatusAndPassword | null = await User.findOne(userDocQuery).populate('status password')
 
-    // Check if user exists
-    if (!user) return next(new BadRequestError('User does not exist'));
+    if (!user.status.isActive) {
+        return next(new BadRequestError('Admin is not activated'));
+    }
 
-    // Check if user is verified
-    if (!user.status.isVerified) return next(new BadRequestError('User is not verified'));
-    if (!user.status.isActive) return next(new BadRequestError('User is not activated'));
-
-    // Check if password is correct
     const passwordIsCorrect = await user.password.comparePassword(password);
-    if (!passwordIsCorrect) return next(new BadRequestError('Incorrect password'));
+    if (!passwordIsCorrect) {
+        return next(new BadRequestError('Incorrect password'));
+    }
 
-    // Get access token
     const { access_token, refresh_token } = await generateAuthTokens(user, 'access');
 
-    const tokenBind = randomUUID()
+    const tokenBind = randomUUID();
     await saveTokenToCacheMemory({
         type: 'cookie_bind',
         token: tokenBind,
         email: user.email,
-        expiry: JWT_REFRESH_EXP
-    })
+        expiry: JWT_REFRESH_EXP,
+    });
 
     res.cookie('cookie_bind_id', tokenBind, {
         httpOnly: true,
@@ -254,206 +237,71 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     return res.status(200).send({
         success: true,
-        message: 'User logged in',
+        message: 'Admin logged in',
         data: {
             user: { ...user.toObject(), ...sensitiveFilter },
             access_token,
-            refresh_token
+            refresh_token,
         },
     });
-}
+};
 
 const logout = async (req: AuthenticatedRequest, res: Response) => {
-    // Blacklist access token
     deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'access',
-    })
+    });
 
     deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'cookie_bind',
-    })
+    });
 
     deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'refresh',
-    })
+    });
 
     res.status(200).send({
         success: true,
-        message: 'User logged out',
+        message: 'Admin logged out',
         data: null,
     });
-}
+};
 
-const deactivateUserAccount = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const email = req.query.email;
-
-    // Deactivate user account
-    const user: UserWithStatus | null
-        = await User.findOne({ email }).populate<UserWithStatus>('status');
-
-    if (!user) return next(new BadRequestError('User does not exist'));
-    if (user.role === 'SuperAdmin') {
-        return next(new ForbiddenError('You cannot deactivate a super admin account'));
-    }
-
-    user.status.isActive = false;
-    await user.status.save();
-
-    res.status(200).send({
-        success: true,
-        data: null
-    })
-}
-
-const activateUserAccount = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const email = req.query.email;
-
-    // Activate user account 
-    const user: UserWithStatus | null
-        = await User.findOne({ email }).populate<UserWithStatus>('status');
-
-    if (!user) return next(new BadRequestError('User does not exist'));
-    if (user.role === 'SuperAdmin') {
-        return next(new ForbiddenError('You cannot activate a super admin account'));
-    }
-
-    user.status.isActive = true;
-    await user.status.save();
-
-    res.status(200).send({
-        success: true,
-        data: null
-    })
-}
-
-const googleSignin = async (req: Request, res: Response, next: NextFunction) => {
-    const authorization = req.headers.authorization;
-    const code = authorization?.split(' ')[1];
-
-    if (!code) {
-        return next(new BadRequestError('Missing required params in request body'))
-    }
-
-    const client = new OAuth2Client(OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, 'postmessage');
-
-    // Exchange code for tokens
-    const { tokens } = await client.getToken(code)
-
-    // Verify id token
-    const ticket = await client.verifyIdToken({
-        idToken: tokens.id_token as string,
-        audience: OAUTH_CLIENT_ID,
-    }),
-        payload = ticket.getPayload();
-
-    const missing_data_in_payload =
-        !payload || !payload.family_name || !payload.given_name ||
-        !payload.sub || !payload.email
-    if (missing_data_in_payload) {
-        throw new InternalServerError('An error occured');
-    }
-    const existing_user = await User.findOne<UserWithStatus>({ email: payload.email }).populate('status')
-
-    // Create new user in db
-    let user: IUserDoc | undefined
-    const random_str = randomUUID(); // Random unique str as password, won't be needed for authentication
-    if (!existing_user) {
-        const user_info = {
-            firstname: payload.given_name,
-            lastname: payload.family_name,
-            email: payload.email as Email,
-            role: 'SuperAdmin',
-            password: random_str,
-            googleId: payload.sub,
-            // wishlist: '' as unknown as Types.ObjectId,
-            // cart: '' as unknown as Types.ObjectId
-        } as ProfileData<'SuperAdmin'> & { password: string }
-
-        const session = await mongoose.startSession()
-        await session.withTransaction(async () => {
-            user = await User.create([user_info], { session }).then(doc => doc[0])
-            if (user) {
-                const profile_data =
-                    user_info.role === 'SuperAdmin'
-                        ? { ...user_info } as ProfileData<'SuperAdmin'>
-                        : undefined
-
-                // Create users profile
-                const profile = await user.createProfile(profile_data, session);
-                if (!profile) throw new InternalServerError('An error occured')
-                console.log(profile)
-                await Password.create([{ user: profile.user, password: user_info.password }], { session });
-            }
-
-            await session.commitTransaction();
-            session.endSession();
-        });
-    }
-
-    const curr_user = await User.findOne({ email: payload.email }).populate<UserWithStatus>('status')
-    if (!curr_user) {
-        return next(new InternalServerError('An error occured'))
-    }
-
-    const { access_token, refresh_token } = await generateAuthTokens(curr_user.toObject(), 'access');
-
-    const token_bind = randomUUID()
-    await saveTokenToCacheMemory({
-        type: 'cookie_bind',
-        token: token_bind,
-        email: curr_user.email,
-        expiry: JWT_REFRESH_EXP
-    })
-
-    res.cookie('cookie_bind_id', token_bind, {
-        httpOnly: true,
-        expires: new Date(Date.now() + JWT_REFRESH_EXP * 1000),
-        sameSite: 'strict',
-    });
-
-    res.status(200).send({
-        success: true,
-        message: 'User logged in',
-        data: {
-            user: { ...curr_user.toObject(), ...sensitiveFilter },
-            access_token,
-            refresh_token
-        },
-    });
-}
-
-const getLoggedInUsersData = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+const getLoggedInUsersData = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+) => {
     res.status(200).send({
         success: true,
         message: 'User is logged in',
         data: {
-            user: { ...req.user, ...sensitiveFilter }
-        }
-    })
-}
+            user: { ...req.user, ...sensitiveFilter },
+        },
+    });
+};
 
 const exchangeAuthTokens = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const user = await User.findById(req.user._id).populate<UserWithStatus>('status')
+    const user = await Admin.findById(req.user._id).populate<AdminWithStatus>('status');
     if (!user) {
-        logger.error("Authenticated user but no existing record found in database")
-        return next(new InternalServerError('An error occured'))
+        logger.error('Authenticated user but no existing record found in database');
+        return next(new InternalServerError('An error occured'));
     }
-    const { access_token } = await generateAuthTokens(user, 'access')
+    const { access_token } = await generateAuthTokens(user, 'access');
 
     res.status(200).send({
         success: true,
         message: 'Successfully exchanged auth tokens',
         data: {
             access_token,
-        }
-    })
-}
+        },
+    });
+};
 
 export {
     userSignup,
@@ -461,10 +309,8 @@ export {
     verifyUserEmail,
     forgotPassword,
     resetPassword,
-    login, logout,
+    login,
+    logout,
     getLoggedInUsersData,
-    googleSignin,
-    deactivateUserAccount,
-    activateUserAccount,
-    exchangeAuthTokens
+    exchangeAuthTokens,
 };

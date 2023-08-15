@@ -1,76 +1,67 @@
 import { Schema, Model, model, Error as MongooseError } from 'mongoose';
 import { Status } from './status.model';
 import {
-    ISuperAdmin, ISuperAdminDoc,
-    IUser, IUserDoc, IUserMethods, IUserModel,
+    IAdmin, IAdminDoc,
 } from './types/user.types';
-import { createProfile, getProfile } from './profile';
 
 const options = { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } };
 
-const user_schema = new Schema<IUserDoc, IUserModel, IUserMethods>(
+const userSchema = new Schema(
     {
-        firstname: { type: String },
-        lastname: { type: String },
+        userId: {
+            type: String,
+            required: true,
+            unique: true,
+            index: true,
+        },
+        username: String,
+        photoUrl: String,
+        emailId: {
+            type: String,
+            default: null
+        },
+        twitterUsername: String,
+        discordUsername: String,
+        walletAddress: String,
+        refCode: {
+            type: String,
+            unique: true,
+        },
+        referrer: {
+            type: String,
+            default: null,
+        },
+    }, options
+);
+
+const adminSchema = new Schema<IAdminDoc>(
+    {
+        firstname: { type: String, required: true },
+        lastname: { type: String, required: true },
         email: {
             type: String,
             required: true,
             unique: true,
         },
-        role: {
-            type: String,
-            required: true,
-            enum: ['SuperAdmin'],
-        },
-        googleId: { type: String, select: false },
-    },
-    {
-        timestamps: true,
-        toObject: {
-            transform: function (doc, ret) {
-                delete ret.profile?.user
-                return ret
-            },
-            virtuals: true
-        },
-        toJSON: { virtuals: true }
-    }
+        role: { type: String, required: true, default: 'Admin' },
+    }, options
 );
 
-const super_admin_schema = new Schema<ISuperAdminDoc>(
-    {
-        user: { type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
-        role: { type: String, required: true, default: 'SuperAdmin' },
-    },
-    options
-);
-
-user_schema.virtual('password', {
+adminSchema.virtual('password', {
     ref: 'Password',
     localField: '_id',
     foreignField: 'user',
     justOne: true,
 });
-user_schema.virtual('status', {
+adminSchema.virtual('status', {
     ref: 'Status',
     localField: '_id',
     foreignField: 'user',
     justOne: true,
 });
-
-user_schema.pre('validate', async function (next) {
+adminSchema.pre('validate', async function (next) {
     if (this.isNew) {
         const status = new Status({ user: this._id });
-
-        /**
-         * Activate user on signup
-         * 
-         * If we intend to switch to a more strict auth flow rather
-         * than the current basic flow we can set it to FALSE
-         * 
-         * If set to TRUE, SUPERADMINS will not be required to 
-         * request for account activation
-         */
         status.isActive = true;
 
         await status.save();
@@ -79,14 +70,9 @@ user_schema.pre('validate', async function (next) {
     next();
 });
 
-user_schema.method('createProfile', createProfile);
-user_schema.method('getProfile', getProfile);
-
-const
-    User: Model<IUserDoc & IUserModel> = model<IUserDoc & IUserModel>('User', user_schema),
-    SuperAdmin: Model<ISuperAdminDoc> = model<ISuperAdminDoc>('SuperAdmin', super_admin_schema);
+const Admin: Model<IAdminDoc> = model<IAdminDoc>('Admin', adminSchema)
+const User = model('Users', userSchema, 'Users');
 
 export {
-    User, IUser, IUserDoc,
-    SuperAdmin, ISuperAdmin, ISuperAdminDoc,
+    User, Admin,
 };

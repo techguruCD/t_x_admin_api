@@ -5,7 +5,7 @@ const options = { timestamps: true, toObject: { virtuals: true }, toJSON: { virt
 
 const status_schema = new Schema<IStatusDoc>(
     {
-        user: { type: Schema.Types.ObjectId, required: true, unique: true },
+        admin: { type: Schema.Types.ObjectId, required: true, unique: true, ref: 'Admin' },
         isActive: { type: Boolean, default: false },
         isVerified: { type: Boolean, default: false },
     },

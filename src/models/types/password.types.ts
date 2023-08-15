@@ -1,11 +1,11 @@
 import { Types, Document } from 'mongoose';
-import { IUser } from './user.types';
+import { IAdmin } from './user.types';
 
 interface IPassword {
     password: string;
-    user: Types.ObjectId | IUser;
-    createdAt?: Date;
-    updatedAt?: Date;
+    admin: Types.ObjectId | IAdmin;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 interface IPasswordMethods {

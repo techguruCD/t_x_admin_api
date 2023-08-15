@@ -1,13 +1,13 @@
 import * as z from "zod";
 import { Request, Response, NextFunction } from "express";
-import { UserWithProfileAndStatus } from '../models/types/user.types';
+import { AdminWithStatus } from '../models/types/user.types';
 import { MongoServerError } from 'mongodb';
 
 interface AuthenticatedRequest extends Request {
     headers: {
         authorization: string
     },
-    user: UserWithProfileAndStatus
+    user: AdminWithStatus
 }
 interface AuthenticatedAsyncController {
     (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void>

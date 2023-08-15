@@ -1,8 +1,8 @@
 import { Types, Document } from 'mongoose';
-import { IUser } from './user.types';
+import { IAdmin } from './user.types';
 
 interface IStatus {
-    user: Types.ObjectId | IUser;
+    admin: Types.ObjectId | IAdmin;
     isActive: boolean;
     isVerified: boolean;
 }

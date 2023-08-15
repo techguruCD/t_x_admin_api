@@ -6,7 +6,7 @@ const options = { timestamps: true, toObject: { virtuals: true }, toJSON: { virt
 
 const password_schema = new Schema<IPasswordDoc>(
     {
-        user: { type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+        admin: { type: Schema.Types.ObjectId, ref: 'Admin', required: true, unique: true },
         password: { type: String, required: true },
     },
     options
