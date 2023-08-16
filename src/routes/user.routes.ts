@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import { getUsers, getUserInfo } from '../controllers/user.controller';
-import { withAuthentication } from '../middlewares/auth';
+import { basicAuth, withAuthentication } from '../middlewares/auth';
 
 const router = Router();
+
+router.use(basicAuth())
 
 router
     .get('/', withAuthentication(getUsers))

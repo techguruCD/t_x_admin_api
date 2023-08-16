@@ -8,59 +8,35 @@
 	},
 	"item": [
 		{
-			"name": "Admin signup",
-			"event": [
+			"name": "Auth",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"const response = pm.response.json()\r",
-							"\r",
-							"if (response.data) {\r",
-							"    const emailVerficationAccessToken = response.data.access_token\r",
-							"    \r",
-							"    if (emailVerficationAccessToken){\r",
-							"        pm.collectionVariables.set('emailVerficationAccessToken', emailVerficationAccessToken)\r",
-							"    }\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"firstname\": \"genx\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"genxadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "Admin signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"if (response.data) {\r",
+									"    const emailVerficationAccessToken = response.data.access_token\r",
+									"    \r",
+									"    if (emailVerficationAccessToken){\r",
+									"        pm.collectionVariables.set('emailVerficationAccessToken', emailVerficationAccessToken)\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "{{serverURL}}/auth/signup",
-					"host": [
-						"{{serverURL}}"
 					],
-					"path": [
-						"auth",
-						"signup"
-					]
-				},
-				"description": "After signup, a verification code will be sent to the user's email, and an `access_token` . The verification code and the `access_token` will be required in the `POST /auth/verifyemail` endpoint"
-			},
-			"response": [
-				{
-					"name": "Success",
-					"originalRequest": {
+					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstname\": \"genx\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"genxsuperadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
+							"raw": "{\r\n    \"firstname\": \"genx\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"genxadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -76,151 +52,146 @@
 								"auth",
 								"signup"
 							]
-						}
+						},
+						"description": "After signup, a verification code will be sent to the user's email, and an `access_token` . The verification code and the `access_token` will be required in the `POST /auth/verifyemail` endpoint"
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-						},
-						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "1035"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"40b-M3tsCNOGynHgzWZCtPpF8KY+HeI\""
-						},
-						{
-							"key": "Date",
-							"value": "Tue, 15 Aug 2023 23:56:28 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"message\": \"Verification code sent to user email\",\n    \"data\": {\n        \"user\": {\n            \"firstname\": \"genx\",\n            \"lastname\": \"admin\",\n            \"email\": \"genxsuperadmin5@gmail.com\",\n            \"role\": \"Admin\",\n            \"_id\": \"64dc10aa5e3bbbcde9dc0032\",\n            \"id\": \"64dc10aa5e3bbbcde9dc0032\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJhZG1pbiIsImVtYWlsIjoiZ2VueHN1cGVyYWRtaW41QGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsIl9pZCI6IjY0ZGMxMGFhNWUzYmJiY2RlOWRjMDAzMiIsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTVUMjM6NTY6MjcuMjI5WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTVUMjM6NTY6MjcuMjI5WiIsIl9fdiI6MCwicGFzc3dvcmQiOm51bGwsInN0YXR1cyI6eyJfaWQiOiI2NGRjMTBhYTVlM2JiYmNkZTlkYzAwMzMiLCJhZG1pbiI6IjY0ZGMxMGFhNWUzYmJiY2RlOWRjMDAzMiIsImlzQWN0aXZlIjp0cnVlLCJpc1ZlcmlmaWVkIjpmYWxzZSwiY3JlYXRlZEF0IjoiMjAyMy0wOC0xNVQyMzo1NjoyNi45MTlaIiwidXBkYXRlZEF0IjoiMjAyMy0wOC0xNVQyMzo1NjoyNi45MTlaIiwiX192IjowLCJpZCI6IjY0ZGMxMGFhNWUzYmJiY2RlOWRjMDAzMyJ9LCJpZCI6IjY0ZGMxMGFhNWUzYmJiY2RlOWRjMDAzMiIsImlhdCI6MTY5MjE0Mzc4OCwiZXhwIjo2MTY5MjE0Mzc4OH0.IDIbjs4Rf0B5hSy3zy5r7HNoPlJ5J1PnGQf23bxCHT8\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Resend Verification email",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"const response = pm.response.json()\r",
-							"\r",
-							"if (response.data) {\r",
-							"    const emailVerficationAccessToken = response.data.access_token\r",
-							"    \r",
-							"    if (emailVerficationAccessToken){\r",
-							"        pm.collectionVariables.set('emailVerficationAccessToken', emailVerficationAccessToken)\r",
-							"    }\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{serverURL}}/auth/verificationemail?email=genxadmin5@gmail.com",
-					"host": [
-						"{{serverURL}}"
-					],
-					"path": [
-						"auth",
-						"verificationemail"
-					],
-					"query": [
-						{
-							"key": "email",
-							"value": "genxadmin5@gmail.com"
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstname\": \"genx\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"genxsuperadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/auth/signup",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1035"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"40b-M3tsCNOGynHgzWZCtPpF8KY+HeI\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 15 Aug 2023 23:56:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Verification code sent to user email\",\n    \"data\": {\n        \"user\": {\n            \"firstname\": \"genx\",\n            \"lastname\": \"admin\",\n            \"email\": \"genxsuperadmin5@gmail.com\",\n            \"role\": \"Admin\",\n            \"_id\": \"64dc10aa5e3bbbcde9dc0032\",\n            \"id\": \"64dc10aa5e3bbbcde9dc0032\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJhZG1pbiIsImVtYWlsIjoiZ2VueHN1cGVyYWRtaW41QGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsIl9pZCI6IjY0ZGMxMGFhNWUzYmJiY2RlOWRjMDAzMiIsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTVUMjM6NTY6MjcuMjI5WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTVUMjM6NTY6MjcuMjI5WiIsIl9fdiI6MCwicGFzc3dvcmQiOm51bGwsInN0YXR1cyI6eyJfaWQiOiI2NGRjMTBhYTVlM2JiYmNkZTlkYzAwMzMiLCJhZG1pbiI6IjY0ZGMxMGFhNWUzYmJiY2RlOWRjMDAzMiIsImlzQWN0aXZlIjp0cnVlLCJpc1ZlcmlmaWVkIjpmYWxzZSwiY3JlYXRlZEF0IjoiMjAyMy0wOC0xNVQyMzo1NjoyNi45MTlaIiwidXBkYXRlZEF0IjoiMjAyMy0wOC0xNVQyMzo1NjoyNi45MTlaIiwiX192IjowLCJpZCI6IjY0ZGMxMGFhNWUzYmJiY2RlOWRjMDAzMyJ9LCJpZCI6IjY0ZGMxMGFhNWUzYmJiY2RlOWRjMDAzMiIsImlhdCI6MTY5MjE0Mzc4OCwiZXhwIjo2MTY5MjE0Mzc4OH0.IDIbjs4Rf0B5hSy3zy5r7HNoPlJ5J1PnGQf23bxCHT8\"\n    }\n}"
 						}
 					]
-				}
-			},
-			"response": [
+				},
 				{
-					"name": "Success",
-					"originalRequest": {
+					"name": "Resend Verification email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"if (response.data) {\r",
+									"    const emailVerficationAccessToken = response.data.access_token\r",
+									"    \r",
+									"    if (emailVerficationAccessToken){\r",
+									"        pm.collectionVariables.set('emailVerficationAccessToken', emailVerficationAccessToken)\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -233,7 +204,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{serverURL}}/auth/verificationemail?email=genxsuperadmin3@gmail.com",
+							"raw": "{{serverURL}}/auth/verificationemail?email=genxadmin5@gmail.com",
 							"host": [
 								"{{serverURL}}"
 							],
@@ -244,142 +215,147 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "genxsuperadmin3@gmail.com"
+									"value": "genxadmin5@gmail.com"
 								}
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-						},
-						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "1325"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"52d-XmJ5FeB1okCZgDqJwvueuyoHzQU\""
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 14 Aug 2023 16:46:17 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"message\": \"Verification code sent to user email\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64da5a2a7fc34d8752452bb7\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"superadmin\",\n            \"email\": \"genxsuperadmin3@gmail.com\",\n            \"role\": \"SuperAdmin\",\n            \"id\": \"64da5a2a7fc34d8752452bb7\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjciLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJzdXBlcmFkbWluIiwiZW1haWwiOiJnZW54c3VwZXJhZG1pbjNAZ21haWwuY29tIiwicm9sZSI6IlN1cGVyQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjI0OFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjI0OFoiLCJfX3YiOjAsInN0YXR1cyI6eyJfaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjgiLCJ1c2VyIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI3IiwiaXNBY3RpdmUiOnRydWUsImlzVmVyaWZpZWQiOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMwLjg3NloiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMwLjg3NloiLCJfX3YiOjAsImlkIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI4In0sImlkIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI3IiwicHJvZmlsZSI6eyJfaWQiOiI2NGRhNWEyYjdmYzM0ZDg3NTI0NTJiYmIiLCJ1c2VyIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI3Iiwicm9sZSI6IlN1cGVyQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjU5MloiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjU5MloiLCJfX3YiOjAsImlkIjoiNjRkYTVhMmI3ZmMzNGQ4NzUyNDUyYmJiIn0sImlhdCI6MTY5MjAzMTU3NywiZXhwIjo2MTY5MjAzMTU3N30.obeye2pFd3UyS-boGVoU_ZBB90hOmUFryN3MmOJStgg\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Verify email",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{emailVerficationAccessToken}}",
-							"type": "string"
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/auth/verificationemail?email=genxsuperadmin3@gmail.com",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"verificationemail"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "genxsuperadmin3@gmail.com"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1325"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"52d-XmJ5FeB1okCZgDqJwvueuyoHzQU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:46:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Verification code sent to user email\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64da5a2a7fc34d8752452bb7\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"superadmin\",\n            \"email\": \"genxsuperadmin3@gmail.com\",\n            \"role\": \"SuperAdmin\",\n            \"id\": \"64da5a2a7fc34d8752452bb7\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjciLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJzdXBlcmFkbWluIiwiZW1haWwiOiJnZW54c3VwZXJhZG1pbjNAZ21haWwuY29tIiwicm9sZSI6IlN1cGVyQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjI0OFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjI0OFoiLCJfX3YiOjAsInN0YXR1cyI6eyJfaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjgiLCJ1c2VyIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI3IiwiaXNBY3RpdmUiOnRydWUsImlzVmVyaWZpZWQiOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMwLjg3NloiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMwLjg3NloiLCJfX3YiOjAsImlkIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI4In0sImlkIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI3IiwicHJvZmlsZSI6eyJfaWQiOiI2NGRhNWEyYjdmYzM0ZDg3NTI0NTJiYmIiLCJ1c2VyIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI3Iiwicm9sZSI6IlN1cGVyQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjU5MloiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjU5MloiLCJfX3YiOjAsImlkIjoiNjRkYTVhMmI3ZmMzNGQ4NzUyNDUyYmJiIn0sImlhdCI6MTY5MjAzMTU3NywiZXhwIjo2MTY5MjAzMTU3N30.obeye2pFd3UyS-boGVoU_ZBB90hOmUFryN3MmOJStgg\"\n    }\n}"
 						}
 					]
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"verification_code\": 2474\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{serverURL}}/auth/verifyemail",
-					"host": [
-						"{{serverURL}}"
-					],
-					"path": [
-						"auth",
-						"verifyemail"
-					]
-				},
-				"description": "The `verification_code` will be in the verification email sent to the user after the `POST /auth/signup` request\n\nNOTE\n\nThe verification code has an expiry, if it expires the user will have to request for another verification code by using the endpoint `GET /auth/verificationemail`"
-			},
-			"response": [
 				{
-					"name": "Success",
-					"originalRequest": {
+					"name": "Verify email",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{emailVerficationAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"verification_code\": 8391\r\n}",
+							"raw": "{\r\n    \"verification_code\": 2474\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -395,148 +371,148 @@
 								"auth",
 								"verifyemail"
 							]
-						}
+						},
+						"description": "The `verification_code` will be in the verification email sent to the user after the `POST /auth/signup` request\n\nNOTE\n\nThe verification code has an expiry, if it expires the user will have to request for another verification code by using the endpoint `GET /auth/verificationemail`"
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-						},
-						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "245"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"f5-G77CAEkCGpZqucBMsW7B/GyfVcQ\""
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 16 Aug 2023 00:00:15 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"verification_code\": 8391\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/auth/verifyemail",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"verifyemail"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "245"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f5-G77CAEkCGpZqucBMsW7B/GyfVcQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 16 Aug 2023 00:00:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Admin verified\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64dc116d5e3bbbcde9dc0041\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"admin\",\n            \"email\": \"genxadmin5@gmail.com\",\n            \"role\": \"Admin\",\n            \"id\": \"64dc116d5e3bbbcde9dc0041\",\n            \"iat\": 1692143996,\n            \"exp\": 61692143996\n        }\n    }\n}"
 						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"message\": \"Admin verified\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64dc116d5e3bbbcde9dc0041\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"admin\",\n            \"email\": \"genxadmin5@gmail.com\",\n            \"role\": \"Admin\",\n            \"id\": \"64dc116d5e3bbbcde9dc0041\",\n            \"iat\": 1692143996,\n            \"exp\": 61692143996\n        }\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Forgot password",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"const response = pm.response.json()\r",
-							"\r",
-							"if (response.data) {\r",
-							"    const passwordResetAccessToken = response.data.access_token\r",
-							"    \r",
-							"    if (passwordResetAccessToken){\r",
-							"        pm.collectionVariables.set('passwordResetAccessToken', passwordResetAccessToken)\r",
-							"    }\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"genxadmin5@gmail.com\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{serverURL}}/auth/forgotpassword",
-					"host": [
-						"{{serverURL}}"
-					],
-					"path": [
-						"auth",
-						"forgotpassword"
 					]
 				},
-				"description": "After initiating a Forgot password request, a `password_reset_code` will be sent to the users email, this will be required to complete the Password reset process in `PATCH /auth/resetpassword`"
-			},
-			"response": [
 				{
-					"name": "Success",
-					"originalRequest": {
+					"name": "Forgot password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"if (response.data) {\r",
+									"    const passwordResetAccessToken = response.data.access_token\r",
+									"    \r",
+									"    if (passwordResetAccessToken){\r",
+									"        pm.collectionVariables.set('passwordResetAccessToken', passwordResetAccessToken)\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"genexsuperadmin1@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"email\": \"genxadmin5@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -552,139 +528,139 @@
 								"auth",
 								"forgotpassword"
 							]
-						}
+						},
+						"description": "After initiating a Forgot password request, a `password_reset_code` will be sent to the users email, this will be required to complete the Password reset process in `PATCH /auth/resetpassword`"
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-						},
-						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "1333"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"535-pJvKKG/tX2rDc1locfTEbsgk0Os\""
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 14 Aug 2023 16:30:54 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"message\": \"Password reset code sent to user email\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64da540ed7c99edf9670f63d\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"superadmin\",\n            \"email\": \"genexsuperadmin1@gmail.com\",\n            \"role\": \"SuperAdmin\",\n            \"id\": \"64da540ed7c99edf9670f63d\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRhNTQwZWQ3Yzk5ZWRmOTY3MGY2M2QiLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJzdXBlcmFkbWluIiwiZW1haWwiOiJnZW5leHN1cGVyYWRtaW4xQGdtYWlsLmNvbSIsInJvbGUiOiJTdXBlckFkbWluIiwiY3JlYXRlZEF0IjoiMjAyMy0wOC0xNFQxNjoxOToyNi45MDZaIiwidXBkYXRlZEF0IjoiMjAyMy0wOC0xNFQxNjoxOToyNi45MDZaIiwiX192IjowLCJzdGF0dXMiOnsiX2lkIjoiNjRkYTU0MGVkN2M5OWVkZjk2NzBmNjNlIiwidXNlciI6IjY0ZGE1NDBlZDdjOTllZGY5NjcwZjYzZCIsImlzQWN0aXZlIjpmYWxzZSwiaXNWZXJpZmllZCI6ZmFsc2UsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6MTk6MjYuNTYwWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6MTk6MjYuNTYwWiIsIl9fdiI6MCwiaWQiOiI2NGRhNTQwZWQ3Yzk5ZWRmOTY3MGY2M2UifSwiaWQiOiI2NGRhNTQwZWQ3Yzk5ZWRmOTY3MGY2M2QiLCJwcm9maWxlIjp7Il9pZCI6IjY0ZGE1NDBmZDdjOTllZGY5NjcwZjY0MSIsInVzZXIiOiI2NGRhNTQwZWQ3Yzk5ZWRmOTY3MGY2M2QiLCJyb2xlIjoiU3VwZXJBZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6MTk6MjcuMjMxWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6MTk6MjcuMjMxWiIsIl9fdiI6MCwiaWQiOiI2NGRhNTQwZmQ3Yzk5ZWRmOTY3MGY2NDEifSwiaWF0IjoxNjkyMDMwNjUzLCJleHAiOjE3NTIwMzA2NTN9.M4R49MpH3VpEaWGyMNFnBIxp0lj4sB5QVrTaIVdoA1M\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Reset password",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{passwordResetAccessToken}}",
-							"type": "string"
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"genexsuperadmin1@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/auth/forgotpassword",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"forgotpassword"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1333"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"535-pJvKKG/tX2rDc1locfTEbsgk0Os\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:30:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Password reset code sent to user email\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64da540ed7c99edf9670f63d\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"superadmin\",\n            \"email\": \"genexsuperadmin1@gmail.com\",\n            \"role\": \"SuperAdmin\",\n            \"id\": \"64da540ed7c99edf9670f63d\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRhNTQwZWQ3Yzk5ZWRmOTY3MGY2M2QiLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJzdXBlcmFkbWluIiwiZW1haWwiOiJnZW5leHN1cGVyYWRtaW4xQGdtYWlsLmNvbSIsInJvbGUiOiJTdXBlckFkbWluIiwiY3JlYXRlZEF0IjoiMjAyMy0wOC0xNFQxNjoxOToyNi45MDZaIiwidXBkYXRlZEF0IjoiMjAyMy0wOC0xNFQxNjoxOToyNi45MDZaIiwiX192IjowLCJzdGF0dXMiOnsiX2lkIjoiNjRkYTU0MGVkN2M5OWVkZjk2NzBmNjNlIiwidXNlciI6IjY0ZGE1NDBlZDdjOTllZGY5NjcwZjYzZCIsImlzQWN0aXZlIjpmYWxzZSwiaXNWZXJpZmllZCI6ZmFsc2UsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6MTk6MjYuNTYwWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6MTk6MjYuNTYwWiIsIl9fdiI6MCwiaWQiOiI2NGRhNTQwZWQ3Yzk5ZWRmOTY3MGY2M2UifSwiaWQiOiI2NGRhNTQwZWQ3Yzk5ZWRmOTY3MGY2M2QiLCJwcm9maWxlIjp7Il9pZCI6IjY0ZGE1NDBmZDdjOTllZGY5NjcwZjY0MSIsInVzZXIiOiI2NGRhNTQwZWQ3Yzk5ZWRmOTY3MGY2M2QiLCJyb2xlIjoiU3VwZXJBZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6MTk6MjcuMjMxWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6MTk6MjcuMjMxWiIsIl9fdiI6MCwiaWQiOiI2NGRhNTQwZmQ3Yzk5ZWRmOTY3MGY2NDEifSwiaWF0IjoxNjkyMDMwNjUzLCJleHAiOjE3NTIwMzA2NTN9.M4R49MpH3VpEaWGyMNFnBIxp0lj4sB5QVrTaIVdoA1M\"\n    }\n}"
 						}
 					]
 				},
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"password_reset_code\": 5883,\r\n    \"new_password\": \"TestPassword2\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{serverURL}}/auth/resetpassword",
-					"host": [
-						"{{serverURL}}"
-					],
-					"path": [
-						"auth",
-						"resetpassword"
-					]
-				},
-				"description": "The `password_reset_code` should be gotten from the mail sent to the user."
-			},
-			"response": [
 				{
-					"name": "Success",
-					"originalRequest": {
+					"name": "Reset password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{passwordResetAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password_reset_code\": 3529,\r\n    \"new_password\": \"newtestpassword1\"\r\n}",
+							"raw": "{\r\n    \"password_reset_code\": 5883,\r\n    \"new_password\": \"TestPassword2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -700,153 +676,154 @@
 								"auth",
 								"resetpassword"
 							]
-						}
+						},
+						"description": "The `password_reset_code` should be gotten from the mail sent to the user."
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-						},
-						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "492"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"1ec-ktFshuinaemjr4av52EKcPn5nIA\""
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 14 Aug 2023 16:32:10 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
+							"name": "Success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password_reset_code\": 3529,\r\n    \"new_password\": \"newtestpassword1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/auth/resetpassword",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"resetpassword"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "492"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1ec-ktFshuinaemjr4av52EKcPn5nIA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:32:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Password reset successful\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64da540ed7c99edf9670f63d\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"superadmin\",\n            \"email\": \"genexsuperadmin1@gmail.com\",\n            \"role\": \"SuperAdmin\",\n            \"id\": \"64da540ed7c99edf9670f63d\",\n            \"profile\": {\n                \"_id\": \"64da540fd7c99edf9670f641\",\n                \"user\": \"64da540ed7c99edf9670f63d\",\n                \"role\": \"SuperAdmin\",\n                \"createdAt\": \"2023-08-14T16:19:27.231Z\",\n                \"updatedAt\": \"2023-08-14T16:19:27.231Z\",\n                \"__v\": 0,\n                \"id\": \"64da540fd7c99edf9670f641\"\n            },\n            \"iat\": 1692030653,\n            \"exp\": 1752030653\n        }\n    }\n}"
 						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"message\": \"Password reset successful\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64da540ed7c99edf9670f63d\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"superadmin\",\n            \"email\": \"genexsuperadmin1@gmail.com\",\n            \"role\": \"SuperAdmin\",\n            \"id\": \"64da540ed7c99edf9670f63d\",\n            \"profile\": {\n                \"_id\": \"64da540fd7c99edf9670f641\",\n                \"user\": \"64da540ed7c99edf9670f63d\",\n                \"role\": \"SuperAdmin\",\n                \"createdAt\": \"2023-08-14T16:19:27.231Z\",\n                \"updatedAt\": \"2023-08-14T16:19:27.231Z\",\n                \"__v\": 0,\n                \"id\": \"64da540fd7c99edf9670f641\"\n            },\n            \"iat\": 1692030653,\n            \"exp\": 1752030653\n        }\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"const response = pm.response.json()\r",
-							"\r",
-							"if (response.data) {\r",
-							"    const accessToken = response.data.access_token\r",
-							"    const refreshToken = response.data.refresh_token\r",
-							"    const user_id = response.data.user._id\r",
-							"    \r",
-							"    if (accessToken){\r",
-							"        pm.collectionVariables.set('accessToken', accessToken)\r",
-							"        pm.collectionVariables.set('userId', user_id)\r",
-							"    }\r",
-							"    if (refreshToken) {\r",
-							"        pm.collectionVariables.set('refreshToken', refreshToken)\r",
-							"    }\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"genxsuperadmin3@gmail.com\",\r\n    \"password\": \"newtestpassword1\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{serverURL}}/auth/login",
-					"host": [
-						"{{serverURL}}"
-					],
-					"path": [
-						"auth",
-						"login"
 					]
-				}
-			},
-			"response": [
+				},
 				{
-					"name": "Success",
-					"originalRequest": {
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"if (response.data) {\r",
+									"    const accessToken = response.data.access_token\r",
+									"    const refreshToken = response.data.refresh_token\r",
+									"    const user_id = response.data.user._id\r",
+									"    \r",
+									"    if (accessToken){\r",
+									"        pm.collectionVariables.set('accessToken', accessToken)\r",
+									"        pm.collectionVariables.set('userId', user_id)\r",
+									"    }\r",
+									"    if (refreshToken) {\r",
+									"        pm.collectionVariables.set('refreshToken', refreshToken)\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"genxadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
+							"raw": "{\r\n    \"email\": \"genxsuperadmin3@gmail.com\",\r\n    \"password\": \"newtestpassword1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -864,259 +841,268 @@
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-						},
-						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "X-RateLimit-Limit",
-							"value": "5"
-						},
-						{
-							"key": "X-RateLimit-Remaining",
-							"value": "4"
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 16 Aug 2023 00:02:28 GMT"
-						},
-						{
-							"key": "X-RateLimit-Reset",
-							"value": "1692144164"
-						},
-						{
-							"key": "Set-Cookie",
-							"value": "cookie_bind_id=7d10ba20-a3d9-420b-a559-f3d8e20222fb; Path=/; Expires=Thu, 13 Jul 4761 00:02:29 GMT; HttpOnly; SameSite=Strict"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "2479"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"9af-W6xsJ7Wl0L0tIi+ccEBch6QhKf8\""
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"message\": \"Admin logged in\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64dc116d5e3bbbcde9dc0041\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"admin\",\n            \"email\": \"genxadmin5@gmail.com\",\n            \"role\": \"Admin\",\n            \"id\": \"64dc116d5e3bbbcde9dc0041\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRjMTE2ZDVlM2JiYmNkZTlkYzAwNDEiLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJhZG1pbiIsImVtYWlsIjoiZ2VueGFkbWluNUBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjE5NloiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjE5NloiLCJfX3YiOjAsInBhc3N3b3JkIjp7Il9pZCI6IjY0ZGMxMTZlNWUzYmJiY2RlOWRjMDA0NSIsImFkbWluIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQxIiwicGFzc3dvcmQiOiIkMmIkMTAkbWRXSk9MTEpweFh0cG5xTTJaZVdyT3RpTHhKcnYwNGo2MmxaMTZBYzI4V09uSm9FMkpmeE8iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjUwMVoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjUwMVoiLCJfX3YiOjAsImlkIjoiNjRkYzExNmU1ZTNiYmJjZGU5ZGMwMDQ1In0sInN0YXR1cyI6eyJfaWQiOiI2NGRjMTE2ZDVlM2JiYmNkZTlkYzAwNDIiLCJhZG1pbiI6IjY0ZGMxMTZkNWUzYmJiY2RlOWRjMDA0MSIsImlzQWN0aXZlIjp0cnVlLCJpc1ZlcmlmaWVkIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQxLjg4OFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE2VDAwOjAyOjE3LjEzOFoiLCJfX3YiOjAsImlkIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQyIn0sImlkIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQxIiwiaWF0IjoxNjkyMTQ0MTQ5LCJleHAiOjM2MTY5MjE0NDE0OX0.WcXO0TOlsxF2luWh18VeDEtYIt14t-MPd5cF9cBSZlE\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRjMTE2ZDVlM2JiYmNkZTlkYzAwNDEiLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJhZG1pbiIsImVtYWlsIjoiZ2VueGFkbWluNUBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjE5NloiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjE5NloiLCJfX3YiOjAsInBhc3N3b3JkIjp7Il9pZCI6IjY0ZGMxMTZlNWUzYmJiY2RlOWRjMDA0NSIsImFkbWluIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQxIiwicGFzc3dvcmQiOiIkMmIkMTAkbWRXSk9MTEpweFh0cG5xTTJaZVdyT3RpTHhKcnYwNGo2MmxaMTZBYzI4V09uSm9FMkpmeE8iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjUwMVoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjUwMVoiLCJfX3YiOjAsImlkIjoiNjRkYzExNmU1ZTNiYmJjZGU5ZGMwMDQ1In0sInN0YXR1cyI6eyJfaWQiOiI2NGRjMTE2ZDVlM2JiYmNkZTlkYzAwNDIiLCJhZG1pbiI6IjY0ZGMxMTZkNWUzYmJiY2RlOWRjMDA0MSIsImlzQWN0aXZlIjp0cnVlLCJpc1ZlcmlmaWVkIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQxLjg4OFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE2VDAwOjAyOjE3LjEzOFoiLCJfX3YiOjAsImlkIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQyIn0sImlkIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQxIiwiaWF0IjoxNjkyMTQ0MTQ5LCJleHAiOjg4MDkyMTQ0MTQ5fQ.qC1oa81Jx1A4XyttO5nUUXlbCQcUBTMTC-vInR_Ipf4\"\n    }\n}"
-				},
-				{
-					"name": "Error: Incorrect password",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"genxadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"genxadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/auth/login",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
 								}
-							}
-						},
-						"url": {
-							"raw": "{{serverURL}}/auth/login",
-							"host": [
-								"{{serverURL}}"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "5"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "4"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 16 Aug 2023 00:02:28 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1692144164"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "cookie_bind_id=7d10ba20-a3d9-420b-a559-f3d8e20222fb; Path=/; Expires=Thu, 13 Jul 4761 00:02:29 GMT; HttpOnly; SameSite=Strict"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2479"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9af-W6xsJ7Wl0L0tIi+ccEBch6QhKf8\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
 							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"status": "Bad Request",
-					"code": 400,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Admin logged in\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64dc116d5e3bbbcde9dc0041\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"admin\",\n            \"email\": \"genxadmin5@gmail.com\",\n            \"role\": \"Admin\",\n            \"id\": \"64dc116d5e3bbbcde9dc0041\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRjMTE2ZDVlM2JiYmNkZTlkYzAwNDEiLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJhZG1pbiIsImVtYWlsIjoiZ2VueGFkbWluNUBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjE5NloiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjE5NloiLCJfX3YiOjAsInBhc3N3b3JkIjp7Il9pZCI6IjY0ZGMxMTZlNWUzYmJiY2RlOWRjMDA0NSIsImFkbWluIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQxIiwicGFzc3dvcmQiOiIkMmIkMTAkbWRXSk9MTEpweFh0cG5xTTJaZVdyT3RpTHhKcnYwNGo2MmxaMTZBYzI4V09uSm9FMkpmeE8iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjUwMVoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjUwMVoiLCJfX3YiOjAsImlkIjoiNjRkYzExNmU1ZTNiYmJjZGU5ZGMwMDQ1In0sInN0YXR1cyI6eyJfaWQiOiI2NGRjMTE2ZDVlM2JiYmNkZTlkYzAwNDIiLCJhZG1pbiI6IjY0ZGMxMTZkNWUzYmJiY2RlOWRjMDA0MSIsImlzQWN0aXZlIjp0cnVlLCJpc1ZlcmlmaWVkIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQxLjg4OFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE2VDAwOjAyOjE3LjEzOFoiLCJfX3YiOjAsImlkIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQyIn0sImlkIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQxIiwiaWF0IjoxNjkyMTQ0MTQ5LCJleHAiOjM2MTY5MjE0NDE0OX0.WcXO0TOlsxF2luWh18VeDEtYIt14t-MPd5cF9cBSZlE\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRjMTE2ZDVlM2JiYmNkZTlkYzAwNDEiLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJhZG1pbiIsImVtYWlsIjoiZ2VueGFkbWluNUBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjE5NloiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjE5NloiLCJfX3YiOjAsInBhc3N3b3JkIjp7Il9pZCI6IjY0ZGMxMTZlNWUzYmJiY2RlOWRjMDA0NSIsImFkbWluIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQxIiwicGFzc3dvcmQiOiIkMmIkMTAkbWRXSk9MTEpweFh0cG5xTTJaZVdyT3RpTHhKcnYwNGo2MmxaMTZBYzI4V09uSm9FMkpmeE8iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjUwMVoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQyLjUwMVoiLCJfX3YiOjAsImlkIjoiNjRkYzExNmU1ZTNiYmJjZGU5ZGMwMDQ1In0sInN0YXR1cyI6eyJfaWQiOiI2NGRjMTE2ZDVlM2JiYmNkZTlkYzAwNDIiLCJhZG1pbiI6IjY0ZGMxMTZkNWUzYmJiY2RlOWRjMDA0MSIsImlzQWN0aXZlIjp0cnVlLCJpc1ZlcmlmaWVkIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE1VDIzOjU5OjQxLjg4OFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE2VDAwOjAyOjE3LjEzOFoiLCJfX3YiOjAsImlkIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQyIn0sImlkIjoiNjRkYzExNmQ1ZTNiYmJjZGU5ZGMwMDQxIiwiaWF0IjoxNjkyMTQ0MTQ5LCJleHAiOjg4MDkyMTQ0MTQ5fQ.qC1oa81Jx1A4XyttO5nUUXlbCQcUBTMTC-vInR_Ipf4\"\n    }\n}"
 						},
 						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "X-RateLimit-Limit",
-							"value": "5"
-						},
-						{
-							"key": "X-RateLimit-Remaining",
-							"value": "4"
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 16 Aug 2023 00:07:49 GMT"
-						},
-						{
-							"key": "X-RateLimit-Reset",
-							"value": "1692144490"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "44"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"2c-+UH6B9joOk61DP8pAiKUel+hK8U\""
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"data\": null,\n    \"message\": \"Incorrect password\"\n}"
-				}
-			]
-		},
-		{
-			"name": "Get logged in users data",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{accessToken}}",
-							"type": "string"
+							"name": "Error: Incorrect password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"genxadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/auth/login",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "5"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "4"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 16 Aug 2023 00:07:49 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1692144490"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "44"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2c-+UH6B9joOk61DP8pAiKUel+hK8U\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": null,\n    \"message\": \"Incorrect password\"\n}"
 						}
 					]
 				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{serverURL}}/auth/loggedinuser",
-					"host": [
-						"{{serverURL}}"
-					],
-					"path": [
-						"auth",
-						"loggedinuser"
-					]
-				}
-			},
-			"response": [
 				{
-					"name": "Success",
-					"originalRequest": {
+					"name": "Get logged in users data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1130,134 +1116,125 @@
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-						},
-						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "481"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"1e1-WuQ4Kkyi6tk8qrhmWdJfYBhsBwc\""
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 14 Aug 2023 17:24:44 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"message\": \"User is logged in\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64da5a2a7fc34d8752452bb7\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"superadmin\",\n            \"email\": \"genxsuperadmin3@gmail.com\",\n            \"role\": \"SuperAdmin\",\n            \"id\": \"64da5a2a7fc34d8752452bb7\",\n            \"profile\": {\n                \"_id\": \"64da5a2b7fc34d8752452bbb\",\n                \"user\": \"64da5a2a7fc34d8752452bb7\",\n                \"role\": \"SuperAdmin\",\n                \"createdAt\": \"2023-08-14T16:45:31.592Z\",\n                \"updatedAt\": \"2023-08-14T16:45:31.592Z\",\n                \"__v\": 0,\n                \"id\": \"64da5a2b7fc34d8752452bbb\"\n            },\n            \"iat\": 1692033802,\n            \"exp\": 361692033802\n        }\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Get new access token",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{refreshToken}}",
-							"type": "string"
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverURL}}/auth/loggedinuser",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"loggedinuser"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "481"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e1-WuQ4Kkyi6tk8qrhmWdJfYBhsBwc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 17:24:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"User is logged in\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64da5a2a7fc34d8752452bb7\",\n            \"firstname\": \"genx\",\n            \"lastname\": \"superadmin\",\n            \"email\": \"genxsuperadmin3@gmail.com\",\n            \"role\": \"SuperAdmin\",\n            \"id\": \"64da5a2a7fc34d8752452bb7\",\n            \"profile\": {\n                \"_id\": \"64da5a2b7fc34d8752452bbb\",\n                \"user\": \"64da5a2a7fc34d8752452bb7\",\n                \"role\": \"SuperAdmin\",\n                \"createdAt\": \"2023-08-14T16:45:31.592Z\",\n                \"updatedAt\": \"2023-08-14T16:45:31.592Z\",\n                \"__v\": 0,\n                \"id\": \"64da5a2b7fc34d8752452bbb\"\n            },\n            \"iat\": 1692033802,\n            \"exp\": 361692033802\n        }\n    }\n}"
 						}
 					]
 				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{serverURL}}/auth/authtoken",
-					"host": [
-						"{{serverURL}}"
-					],
-					"path": [
-						"auth",
-						"authtoken"
-					]
-				}
-			},
-			"response": [
 				{
-					"name": "Success",
-					"originalRequest": {
+					"name": "Get new access token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -1280,89 +1257,472 @@
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Security-Policy",
-							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-						},
-						{
-							"key": "Cross-Origin-Opener-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Cross-Origin-Resource-Policy",
-							"value": "same-origin"
-						},
-						{
-							"key": "Origin-Agent-Cluster",
-							"value": "?1"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=15552000; includeSubDomains"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-DNS-Prefetch-Control",
-							"value": "off"
-						},
-						{
-							"key": "X-Download-Options",
-							"value": "noopen"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "SAMEORIGIN"
-						},
-						{
-							"key": "X-Permitted-Cross-Domain-Policies",
-							"value": "none"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "1150"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"47e-RH8/hSjzQ9umB1OudhuzUj8uVbM\""
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 14 Aug 2023 18:11:15 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/auth/authtoken",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"auth",
+										"authtoken"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1150"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47e-RH8/hSjzQ9umB1OudhuzUj8uVbM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 18:11:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Successfully exchanged auth tokens\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjciLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJzdXBlcmFkbWluIiwiZW1haWwiOiJnZW54c3VwZXJhZG1pbjNAZ21haWwuY29tIiwicm9sZSI6IlN1cGVyQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjI0OFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjI0OFoiLCJfX3YiOjAsInN0YXR1cyI6eyJfaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjgiLCJ1c2VyIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI3IiwiaXNBY3RpdmUiOnRydWUsImlzVmVyaWZpZWQiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6NDU6MzAuODc2WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6NDc6MzMuNDEzWiIsIl9fdiI6MCwiaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjgifSwiaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjciLCJwcm9maWxlIjp7Il9pZCI6IjY0ZGE1YTJiN2ZjMzRkODc1MjQ1MmJiYiIsInVzZXIiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjciLCJyb2xlIjoiU3VwZXJBZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6NDU6MzEuNTkyWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6NDU6MzEuNTkyWiIsIl9fdiI6MCwiaWQiOiI2NGRhNWEyYjdmYzM0ZDg3NTI0NTJiYmIifSwiaWF0IjoxNjkyMDM2Njc1LCJleHAiOjM2MTY5MjAzNjY3NX0.Bv9r5jf0f7MC8vNAm3v_FQh8pAaOSKmLhRSsEOD6heM\"\n    }\n}"
 						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"message\": \"Successfully exchanged auth tokens\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjciLCJmaXJzdG5hbWUiOiJnZW54IiwibGFzdG5hbWUiOiJzdXBlcmFkbWluIiwiZW1haWwiOiJnZW54c3VwZXJhZG1pbjNAZ21haWwuY29tIiwicm9sZSI6IlN1cGVyQWRtaW4iLCJjcmVhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjI0OFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA4LTE0VDE2OjQ1OjMxLjI0OFoiLCJfX3YiOjAsInN0YXR1cyI6eyJfaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjgiLCJ1c2VyIjoiNjRkYTVhMmE3ZmMzNGQ4NzUyNDUyYmI3IiwiaXNBY3RpdmUiOnRydWUsImlzVmVyaWZpZWQiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6NDU6MzAuODc2WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6NDc6MzMuNDEzWiIsIl9fdiI6MCwiaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjgifSwiaWQiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjciLCJwcm9maWxlIjp7Il9pZCI6IjY0ZGE1YTJiN2ZjMzRkODc1MjQ1MmJiYiIsInVzZXIiOiI2NGRhNWEyYTdmYzM0ZDg3NTI0NTJiYjciLCJyb2xlIjoiU3VwZXJBZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6NDU6MzEuNTkyWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMTRUMTY6NDU6MzEuNTkyWiIsIl9fdiI6MCwiaWQiOiI2NGRhNWEyYjdmYzM0ZDg3NTI0NTJiYmIifSwiaWF0IjoxNjkyMDM2Njc1LCJleHAiOjM2MTY5MjAzNjY3NX0.Bv9r5jf0f7MC8vNAm3v_FQh8pAaOSKmLhRSsEOD6heM\"\n    }\n}"
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverURL}}/user",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverURL}}/user",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "10462"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28de-Lx7lNJOIOHQTSOU7N4q47O1P6Co\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 16 Aug 2023 00:34:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"mesage\": \"Users fetched successfully\",\n    \"data\": {\n        \"users\": [\n            {\n                \"_id\": \"64b005618d65e54d4eddf392\",\n                \"userId\": \"urSJdfZEfKVxkTe4H34KajI47ff1\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-13T14:08:33.232Z\",\n                \"emailId\": \"rohitchangediya@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtf9pFqnNzcgHFNiK10tg7cV_BsQwxzQwpd8M_Df4YOvL1Y=s96-c\",\n                \"refCode\": \"0fxTKTWgH3oz9Omu\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-08-10T09:23:10.626Z\",\n                \"username\": \"Rohit Changediya\",\n                \"walletAddress\": \"0x025FE77cC8337f44946B61c4c2dCf83247cC9A8F\",\n                \"id\": \"64b005618d65e54d4eddf392\"\n            },\n            {\n                \"_id\": \"64b1499d8d65e54d4e37def2\",\n                \"userId\": \"149467007\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-14T13:11:57.380Z\",\n                \"emailId\": \"rohitchangediya@gmail.com\",\n                \"photoUrl\": \"https://pbs.twimg.com/profile_images/1664501632166686720/iAuD30rt_normal.jpg\",\n                \"refCode\": \"64REbtrzXVGgVugh\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-14T13:11:57.380Z\",\n                \"username\": \"Rohit Changediya\",\n                \"id\": \"64b1499d8d65e54d4e37def2\"\n            },\n            {\n                \"_id\": \"64ba204f9916de719d9ec805\",\n                \"userId\": \"hKgkyHoqfHU90dmL6ql9GEN6fjc2\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-21T06:06:07.651Z\",\n                \"emailId\": \"testingdevice.pixa@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtcB_BtC0vJ7b2_CxXkpnv8o9qtil7UsqEtaSJzJPwcB=s96-c\",\n                \"refCode\": \"DTXE565h1e4AZrnz\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-26T10:12:13.117Z\",\n                \"username\": \"James Miller\",\n                \"id\": \"64ba204f9916de719d9ec805\"\n            },\n            {\n                \"_id\": \"64ba62419916de719d1b1be6\",\n                \"userId\": \"hqmqAF7YaAODh1u3sCsxTmDaXbz2\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-21T10:47:29.501Z\",\n                \"emailId\": \"thegangs2022@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtegMrBNGnbVd5Jlpz6-euwdkhFgIypFfm-kB0RRCUTk=s96-c\",\n                \"refCode\": \"w9qHIqQHwNLXGZDN\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-21T11:16:23.184Z\",\n                \"username\": \"The Gangs\",\n                \"id\": \"64ba62419916de719d1b1be6\"\n            },\n            {\n                \"_id\": \"64c362609916de719dcd59d0\",\n                \"userId\": \"f2JhSTYX2IYtvO7Fnjj1yPQQPjC3\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-28T06:38:24.983Z\",\n                \"emailId\": \"\",\n                \"photoUrl\": \"\",\n                \"refCode\": \"tJHIiFQbtXbOvJES\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-08-05T17:42:06.775Z\",\n                \"username\": \"\",\n                \"id\": \"64c362609916de719dcd59d0\"\n            },\n            {\n                \"_id\": \"64cd04c59916de719db6aca1\",\n                \"userId\": \"a62pA7Nn6LXNhqt1qmkg912SbT83\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-08-04T14:01:41.727Z\",\n                \"emailId\": \"molunorichie@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtc2g5BTmVRSJTFQFtC0YiB1yzLniHELDri-3IiOeNDjXag=s96-c\",\n                \"refCode\": \"zDzuv5xcn5lreQG3\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-08-04T14:01:41.727Z\",\n                \"username\": \"Richie Moluno\",\n                \"id\": \"64cd04c59916de719db6aca1\"\n            },\n            {\n                \"_id\": \"64b036e88d65e54d4e3bb42b\",\n                \"userId\": \"2547583202\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-13T17:39:52.123Z\",\n                \"emailId\": \"manemanjiri@gmail.com\",\n                \"photoUrl\": \"https://pbs.twimg.com/profile_images/1248816028517158913/rWymoa2u_normal.jpg\",\n                \"refCode\": \"Og7rjYuF8NwSvuTw\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-19T06:30:44.040Z\",\n                \"username\": \"Manjiri Mane\",\n                \"discordUsername\": \"manjiri\",\n                \"twitterUsername\": \"manemanjiri\",\n                \"walletAddress\": \"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cf5\",\n                \"id\": \"64b036e88d65e54d4e3bb42b\"\n            },\n            {\n                \"_id\": \"64b115b78d65e54d4ec9ee7d\",\n                \"userId\": \"Bz9zQ0olU6QvE5EeitOGFGkF0Oh2\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-14T09:30:31.918Z\",\n                \"emailId\": \"julitech4@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtdEKOzMXFUGBBQlq-M6FhXVHi1dTC7NvB5DwPLVeuZ9=s96-c\",\n                \"refCode\": \"2Bsms6mJwIeUwfWI\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-08-04T08:42:03.445Z\",\n                \"username\": \"Osadebamwen Ewansiha\",\n                \"walletAddress\": \"0x418d75f65a02b3d53b2418fb8e1fe493759c7605\",\n                \"id\": \"64b115b78d65e54d4ec9ee7d\"\n            },\n            {\n                \"_id\": \"64bb7bf39916de719d0f9533\",\n                \"userId\": \"JhEURBhVIfaPD1ALswNMn3GOBpy1\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-22T06:49:23.021Z\",\n                \"emailId\": \"cryptograph77@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTteU3gtwSkzmD87Uw4OsXghanMqYA2MvCo7exmaljGcGInw=s96-c\",\n                \"refCode\": \"mSBzRboBST6x0Paa\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-08-09T17:50:12.441Z\",\n                \"username\": \"Tobias Graf\",\n                \"walletAddress\": \"0x606FB7969fC1b5CAd58e64b12Cf827FB65eE4875\",\n                \"id\": \"64bb7bf39916de719d0f9533\"\n            },\n            {\n                \"_id\": \"64cbfa1c9916de719db2347a\",\n                \"userId\": \"7HzAAlwov2QD34nL7d5ymuJIESi1\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-08-03T19:03:56.246Z\",\n                \"emailId\": \"\",\n                \"photoUrl\": \"https://pbs.twimg.com/profile_images/1647656768460275718/S0Th82Vf_normal.jpg\",\n                \"refCode\": \"X5lsSm6DGsVyDF3z\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-08-10T09:03:06.812Z\",\n                \"username\": \"Fortune Praise\",\n                \"id\": \"64cbfa1c9916de719db2347a\"\n            },\n            {\n                \"_id\": \"64b0d0478d65e54d4e43b77b\",\n                \"userId\": \"2zWqvTsyivQIHcPFbetJ8LMcPTX2\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-14T04:34:15.056Z\",\n                \"emailId\": \"testingdevice.pixa@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtcB_BtC0vJ7b2_CxXkpnv8o9qtil7UsqEtaSJzJPwcB=s96-c\",\n                \"refCode\": \"SeUJ7FEa5WYIVBmJ\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-14T04:34:15.056Z\",\n                \"username\": \"James Miller\",\n                \"id\": \"64b0d0478d65e54d4e43b77b\"\n            },\n            {\n                \"_id\": \"64b006c58d65e54d4ee0c4e6\",\n                \"userId\": \"n0SCDwv3SaPPmJy2VUSLHIgNsEz1\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-13T14:14:29.952Z\",\n                \"emailId\": \"rahultrivedi180@gmail.com\",\n                \"photoUrl\": null,\n                \"refCode\": \"2vxLD3fCPEyMPeig\",\n                \"referrer\": \"0fxTKTWgH3oz9Omu\",\n                \"updatedAt\": \"2023-08-14T08:29:48.003Z\",\n                \"username\": \"Rahul Trivedi\",\n                \"discordUsername\": \"elonmusk\",\n                \"twitterUsername\": \"elonmusk\",\n                \"walletAddress\": \"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2\",\n                \"id\": \"64b006c58d65e54d4ee0c4e6\"\n            },\n            {\n                \"_id\": \"64b0e0508d65e54d4e5f3e70\",\n                \"userId\": \"hDzxjHPGy1POSxDQ8tB5KzappoH3\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-14T05:42:40.415Z\",\n                \"emailId\": \"testingdevice.pixa@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtcB_BtC0vJ7b2_CxXkpnv8o9qtil7UsqEtaSJzJPwcB=s96-c\",\n                \"refCode\": \"kvbuuMv0hvvDvYC0\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-17T12:27:24.211Z\",\n                \"username\": \"James Miller\",\n                \"id\": \"64b0e0508d65e54d4e5f3e70\"\n            },\n            {\n                \"_id\": \"64b134ee8d65e54d4e10085b\",\n                \"userId\": \"IRaNWMiQWJOZxAJ006fRSbj5Wlm1\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-14T11:43:42.439Z\",\n                \"emailId\": \"pixa.sharing@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtfmRGZCW8vMGTx1LSA5yS7Wkgdl2_vdVdOO83rBlWm0=s96-c\",\n                \"refCode\": \"NnqObw7dAxZw6czz\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-19T11:30:52.766Z\",\n                \"username\": \"Pixa Sharing\",\n                \"id\": \"64b134ee8d65e54d4e10085b\"\n            },\n            {\n                \"_id\": \"64b4c6fd37981c37bd6d8e3b\",\n                \"userId\": \"wymjuhXj6wMLNPtbFgMck40UTSE3\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-17T04:43:41.076Z\",\n                \"emailId\": \"imranansari1803@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtcoEED_VXyc2ddRQTQQWDo0zJoj2r6jzlnGi2YcEtonofs=s96-c\",\n                \"refCode\": \"GThLRDaC6bdOqD3u\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-17T04:43:42.117Z\",\n                \"username\": \"Imran Ansari\",\n                \"id\": \"64b4c6fd37981c37bd6d8e3b\"\n            },\n            {\n                \"_id\": \"64b5279837981c37bd1e7572\",\n                \"userId\": \"1054261847539441665\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-17T11:35:52.195Z\",\n                \"emailId\": \"\",\n                \"photoUrl\": \"https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png\",\n                \"refCode\": \"64tlUqjsy2G0vvZF\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-20T07:13:59.592Z\",\n                \"username\": \"Imran\",\n                \"id\": \"64b5279837981c37bd1e7572\"\n            },\n            {\n                \"_id\": \"64b8d02a9916de719d1c454d\",\n                \"userId\": \"MfOPlFw7nGUVg8uL6ySAxToF7oz2\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-20T06:11:54.471Z\",\n                \"emailId\": \"komalgundecha2@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtcteanF3WgNO-RFH5eCkRSuRcB4tVqZbQ91PIt4MEcG=s96-c\",\n                \"refCode\": \"QGBkT4W5HzGCCPir\",\n                \"referrer\": \"0fxTKTWgH3oz9Omu\",\n                \"updatedAt\": \"2023-07-20T06:11:54.573Z\",\n                \"username\": \"Komal Gundecha\",\n                \"id\": \"64b8d02a9916de719d1c454d\"\n            },\n            {\n                \"_id\": \"64ba30369916de719dbba036\",\n                \"userId\": \"eatXSQz6LWS2m2YpIkd03XQS2cR2\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-21T07:13:58.880Z\",\n                \"emailId\": \"rahultrivedi180@proton.me\",\n                \"photoUrl\": \"https://pbs.twimg.com/profile_images/1565736137196453890/V4rlzEkp_normal.jpg\",\n                \"refCode\": \"JAIRuPNaeBVhTXFQ\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-21T07:13:58.880Z\",\n                \"username\": \"rahultrivedi180.bitcoin\",\n                \"id\": \"64ba30369916de719dbba036\"\n            },\n            {\n                \"_id\": \"64b4bf2937981c37bd605ac9\",\n                \"userId\": \"991912007317229568\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-17T04:10:17.476Z\",\n                \"emailId\": \"parasbora3229@gmail.com\",\n                \"photoUrl\": \"https://pbs.twimg.com/profile_images/1384910905033457664/9zTrS_2j_normal.jpg\",\n                \"refCode\": \"ZwwMmeyFXakee15Y\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-17T04:10:17.476Z\",\n                \"username\": \"paras bora\",\n                \"id\": \"64b4bf2937981c37bd605ac9\"\n            },\n            {\n                \"_id\": \"64b8f3d19916de719d6798af\",\n                \"userId\": \"WhNeliRr7GMv7WQN1KpBrEQVIIJ3\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-20T08:44:01.385Z\",\n                \"emailId\": \"manish.ch1812@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtfbcoESz_PJwUEWRzMvNTvdkYk0JojsAYd7ejJ5HRyl=s96-c\",\n                \"refCode\": \"q8qeDuY5VaKWF0CE\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-31T16:26:38.853Z\",\n                \"username\": \"Manish Chauhan\",\n                \"id\": \"64b8f3d19916de719d6798af\"\n            },\n            {\n                \"_id\": \"64b947f79916de719d110952\",\n                \"userId\": \"P2gHNTptaJffD6jf3sgAgMZf72I3\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-20T14:43:03.111Z\",\n                \"emailId\": \"vik@open-infotech.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a-/AD_cMMSsfXGISrbYCEc8EUAUOGhsQUl0O7nCyizImI-BY_qV2InYYxQ8a-jnZQwsZ2WNxfx-LQ5qvpkuHWOmAYuvV-lgO1lNtQqVQhpsY0Tx6wAPHx3KBWckJVNCqxBcUWTGv6XO2VqbG2DYb44A0xnqnYQlS6bWdjMkDrNT7qdQirO7aYjuaClU-Adt40Zk_u5L70U7easrQoIzCecSnHQgut7QS7MlIG8KMZxByWi02I9Jhf1P-XV74fVQxlWpW_BOiTRFHxXFjpIIW_BfnjdO4GxlMuz8LqiVOF5Ds-BouTCm5wG8QYsp6z8zjlV2ZjN88DpvP_lyKwmJ4akR4-K5pSibrRHpVAyZDYEq9Hjt_8CYYQqxSzs4QKuHuYiNTW7tT_66RqHoZNyHUIXC1rj86KZFs89wO6d9BADK93HDNZAqpIur5ilNeQvdVGUnCyuMms7FbeLVzjQ_k7pvyPLN96vHRKW__CEDpSVpruwr43EALUfTq0KpxSq8Z84qB5MZXsCu67FumNlvt3ednmFCftcnAwcviAIzLQSpQaLRQ0naXxN2K_RqHmW05jfsZaomdGveWdnaV4TZ0Cbl4J1_kEJ0lLcGU28c_KHZliq5l8b434xVMbJ166WEHX94s1KPp8SSEqSFChrOhhi-sZWX6bMPs6hRvR3crt90icWnPoxpfNW92jmQSJSxTyShOxr7MzGdzI6_FcdpZnWa_6V5E0XK12e0gvYrkWFaC7nY6if7wMYko3JLqPl1eDgQt_ggxMNZTpjKqH50BiaQeHp6z30dLpi8WrtMInLhfCzvfxzTvMRr8lBIwLKystAah3kL99SDnLMeSDrYvZt3K4W_ne86WOFTT6AcAo8rpAl5Bo8GPzuLZGTxPAZKLZsYi54YwuOhQ63HRD4G32mOY0oPT9xsBVV7YxEmVAaM_Tp2_nANLSdMgoIp5f_ZhDdufhRW5g=s96-c\",\n                \"refCode\": \"96JrirPpeBkoTn0N\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-07-21T02:58:47.327Z\",\n                \"username\": \"Vikram Ghadge\",\n                \"id\": \"64b947f79916de719d110952\"\n            },\n            {\n                \"_id\": \"64ba08349916de719d726052\",\n                \"userId\": \"wimVfP7K23XjGX5VmwQxxEhVJPs1\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-21T04:23:16.364Z\",\n                \"emailId\": \"vikrambghadge@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtc7GEfN3ZSLTGmMlWLrRpkdDMJzx_1O1CWuWE7htqEdfKA=s96-c\",\n                \"refCode\": \"aCYrZwsvCVOuOekb\",\n                \"referrer\": null,\n                \"updatedAt\": \"2023-08-03T14:09:31.971Z\",\n                \"username\": \"Vikram Ghadge\",\n                \"id\": \"64ba08349916de719d726052\"\n            },\n            {\n                \"_id\": \"64bad04b9916de719de24b4d\",\n                \"userId\": \"CXajaJa6odguevULX1TnOl3ZzJv1\",\n                \"__v\": 0,\n                \"createdAt\": \"2023-07-21T18:36:59.857Z\",\n                \"emailId\": \"samrin.joe@gmail.com\",\n                \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtdys5t2uzuIAkrn1K45KyrdY1GFS-BWLKYJz2hcVt87=s96-c\",\n                \"refCode\": \"htfsjDzgm08WKk79\",\n                \"referrer\": \"0fxTKTWgH3oz9Omu\",\n                \"updatedAt\": \"2023-08-10T12:51:27.078Z\",\n                \"username\": \"samrin jha\",\n                \"walletAddress\": \"0xCCeB59C95a31108eFc042953838028B736742c1A\",\n                \"id\": \"64bad04b9916de719de24b4d\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get user info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverURL}}/user/userinfo",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"user",
+								"userinfo"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "urSJdfZEfKVxkTe4H34KajI47ff1",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "Rohit Changediya",
+									"disabled": true
+								},
+								{
+									"key": "email_id",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "twitter_username",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "discord_username",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "wallet_address",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "ref_code",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "referrer",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverURL}}/user/userinfo",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"user",
+										"userinfo"
+									],
+									"query": [
+										{
+											"key": "user_id",
+											"value": "urSJdfZEfKVxkTe4H34KajI47ff1",
+											"disabled": true
+										},
+										{
+											"key": "username",
+											"value": "Rohit Changediya",
+											"disabled": true
+										},
+										{
+											"key": "email_id",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "twitter_username",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "discord_username",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "wallet_address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "ref_code",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "referrer",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "548"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"224-azYMbOTi0za/p7vAeyw4SU0Ozgo\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 16 Aug 2023 00:42:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"mesage\": \"User info fetched successfully\",\n    \"data\": {\n        \"user\": {\n            \"_id\": \"64b005618d65e54d4eddf392\",\n            \"userId\": \"urSJdfZEfKVxkTe4H34KajI47ff1\",\n            \"__v\": 0,\n            \"createdAt\": \"2023-07-13T14:08:33.232Z\",\n            \"emailId\": \"rohitchangediya@gmail.com\",\n            \"photoUrl\": \"https://lh3.googleusercontent.com/a/AAcHTtf9pFqnNzcgHFNiK10tg7cV_BsQwxzQwpd8M_Df4YOvL1Y=s96-c\",\n            \"refCode\": \"0fxTKTWgH3oz9Omu\",\n            \"referrer\": null,\n            \"updatedAt\": \"2023-08-10T09:23:10.626Z\",\n            \"username\": \"Rohit Changediya\",\n            \"walletAddress\": \"0x025FE77cC8337f44946B61c4c2dCf83247cC9A8F\",\n            \"id\": \"64b005618d65e54d4eddf392\"\n        }\n    }\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{accessToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}

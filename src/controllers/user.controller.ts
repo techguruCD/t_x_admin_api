@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express"
 import { AuthenticatedRequest } from "../types"
 import { User } from "../models/user.model"
+import { NotFoundError } from "../utils/errors"
 
 const getUserInfo = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const {
@@ -22,9 +23,13 @@ const getUserInfo = async (req: AuthenticatedRequest, res: Response, next: NextF
 
     const user = await User.findOne(query)
 
+    if (!user) {
+        return next(new NotFoundError('User not found'))
+    }
+
     res.status(200).send({
         success: true,
-        mesage: "Users fetched successfully",
+        mesage: "User info fetched successfully",
         data: {
             user
         }
@@ -36,7 +41,7 @@ const getUsers = async (req: AuthenticatedRequest, res: Response, next: NextFunc
 
     res.status(200).send({
         success: true,
-        mesage: "User info fetched successfully",
+        mesage: "Users fetched successfully",
         data: {
             users
         }
