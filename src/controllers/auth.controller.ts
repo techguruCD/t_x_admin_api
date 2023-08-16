@@ -54,7 +54,7 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
     await session.withTransaction(async () => {
         user = (await Admin.create([userInfo], { session }))[0];
 
-        await Password.create([{ user: user._id, password }], { session });
+        await Password.create([{ admin: user._id, password }], { session });
         await session.commitTransaction();
         session.endSession();
     });
@@ -100,7 +100,7 @@ const verifyUserEmail = async (req: AuthenticatedRequest, res: Response, next: N
         throw new NotFoundError('Invalid verification code');
     }
 
-    await Status.findOneAndUpdate({ user: user._id }, { isVerified: true });
+    await Status.findOneAndUpdate({ admin: user._id }, { isVerified: true });
 
     deleteAuthFromCacheMemory({
         authClass: 'token',
@@ -165,11 +165,13 @@ const resetPassword = async (req: AuthenticatedRequest, res: Response, next: Nex
     }
 
     // Update password
-    const password = await Password.findOne({ user: req.user._id });
+    const password = await Password.findOne({ admin: req.user._id });
 
-    password
-        ? await password.updatePassword(newPassword)
-        : next(new InternalServerError('An error occurred'));
+    if (password) {
+        await password.updatePassword(newPassword)
+    } else {
+        return next(new InternalServerError('An error occurred'));
+    }
 
     // // Blacklist access token
     await deleteAuthFromCacheMemory({

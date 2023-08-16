@@ -211,12 +211,14 @@ async function generateAuthCodes<T extends AuthCode>
         expiry: getJWTConfigVariables(codeType).expiry
     })
 
-    logger.info([
-        verificationCode,
-        passwordResetCode,
-        activationCode1, activationCode2,
-        deactivationCode1, deactivationCode2,
-    ])
+    if (config.NODE_ENV === 'dev') {
+        logger.info([
+            verificationCode,
+            passwordResetCode,
+            activationCode1, activationCode2,
+            deactivationCode1, deactivationCode2,
+        ])
+    }
 
     return {
         verificationCode,

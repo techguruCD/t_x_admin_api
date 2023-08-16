@@ -50,18 +50,18 @@ const adminSchema = new Schema<IAdminDoc>(
 adminSchema.virtual('password', {
     ref: 'Password',
     localField: '_id',
-    foreignField: 'user',
+    foreignField: 'admin',
     justOne: true,
 });
 adminSchema.virtual('status', {
     ref: 'Status',
     localField: '_id',
-    foreignField: 'user',
+    foreignField: 'admin',
     justOne: true,
 });
 adminSchema.pre('validate', async function (next) {
     if (this.isNew) {
-        const status = new Status({ user: this._id });
+        const status = new Status({ admin: this._id });
         status.isActive = true;
 
         await status.save();

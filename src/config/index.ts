@@ -49,17 +49,3 @@ export const EMAIL_HOST: string = process.env.EMAIL_HOST as string,
     OAUTH_ACCESS_TOKEN: string = process.env.OAUTH_ACCESS_TOKEN as string,
     GOOGLE_SIGNIN_CLIENT_ID: string = process.env.GOOGLE_SIGNIN_CLIENT_ID as string,
     PROJECT_HOST_EMAIL: Email = process.env.PROJECT_HOST_EMAIL as Email;
-
-/* Server */
-export const SERVER_URL: string = process.env.SERVER_URL as string;
-
-/* Github */
-export const GITHUB_CLIENT_ID: string = process.env.GITHUB_CLIENT_ID as string,
-    GITHUB_CLIENT_SECRET: string = process.env.GITHUB_CLIENT_SECRET as string;
-
-/* Crypto */
-export const CRYPTO_ALGORITHM: string = process.env.CRYPTO_ALGORITHM as string,
-    CRYPTO_PASSWORD: string = process.env.CRYPTO_PASSWORD as string,
-    CRYPTO_IV: string = process.env.CRYPTO_IV as string;
-
-export const FRONTEND_URL_EMAIL_VER = process.env.FRONTEND_URL_EMAIL_VER as string;

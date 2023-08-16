@@ -21,7 +21,7 @@ async function initMongoDBConnection() {
     Mongoose.set('strictQuery', false);
     await Mongoose.connect(mongoURL);
 
-    logger.info(`Connection to ${Mongoose.connection.name} MongoDB database successful`);
+    logger.info(`Connection to MongoDB database successful`);
 }
 
 async function initRedisConnection() {
