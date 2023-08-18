@@ -9,16 +9,9 @@ import { NodeENV } from './types';
  * if NODE_ENV = 'test' use .env.prod
  */
 const NODE_ENV = process.env.NODE_ENV as NodeENV;
-
-const app_deployed = process.env.DEPLOYED as string;
 let path = NODE_ENV
-    ? `${__dirname}/.env.${NODE_ENV}`
-    : `${__dirname}/.env`;
-    
-// If deployed on render, use the .env file in the secrets folder
-path = app_deployed
-    ? '/etc/secrets/.env'
-    : path;
+    ? `${__dirname}/../.env.${NODE_ENV}`
+    : `${__dirname}/../.env`;
 dotenv.config({ path });
 
 import { connectToDatabase } from './database/index';

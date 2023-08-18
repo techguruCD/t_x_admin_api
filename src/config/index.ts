@@ -49,3 +49,8 @@ export const EMAIL_HOST: string = process.env.EMAIL_HOST as string,
     OAUTH_ACCESS_TOKEN: string = process.env.OAUTH_ACCESS_TOKEN as string,
     GOOGLE_SIGNIN_CLIENT_ID: string = process.env.GOOGLE_SIGNIN_CLIENT_ID as string,
     PROJECT_HOST_EMAIL: Email = process.env.PROJECT_HOST_EMAIL as Email;
+
+/* CLOUDINARY */
+export const CLOUDINARY_CLOUD_NAME: string = process.env.CLOUDINARY_CLOUD_NAME as string,
+    CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY as string,
+    CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET as string;
