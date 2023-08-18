@@ -15,6 +15,6 @@ const adsSchema = new Schema(
     }, options
 )
 
-const Ads: Model<IAdDoc> = model<IAdDoc>('Ads', adsSchema);
+const Ads: Model<IAdDoc> = model<IAdDoc>('Ads', adsSchema, 'Ads');
 
 export { Ads, adsSchema };
