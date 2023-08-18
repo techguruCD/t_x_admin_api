@@ -16,7 +16,7 @@ import { multerUpload } from '../services/fileupload.service';
 const router = Router();
 
 router
-    .post('/new', basicAuth(), multerUpload.single('image'), withAuthentication(createNewAd))
+    .post('/create', basicAuth(), multerUpload.single('image'), withAuthentication(createNewAd))
     .get('/all', basicAuth(), withAuthentication(getAds))
     .get('/info', basicAuth(), withAuthentication(getAdInfo))
     .patch('/disable', basicAuth(), withAuthentication(disableAd))
