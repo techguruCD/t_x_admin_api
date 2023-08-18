@@ -60,6 +60,7 @@ function errorHandler(err: Error, req: Request, res: Response, next: NextFunctio
     } else if (err instanceof CustomAPIError) {
         return res.status(err.statusCode).send({
             data: null,
+            success: false,
             message: err.message,
         });
     }
@@ -67,6 +68,7 @@ function errorHandler(err: Error, req: Request, res: Response, next: NextFunctio
     if (error) {
         return res.status(error.statusCode).send({
             data: null,
+            success: false,
             message: error.message,
         });
     }

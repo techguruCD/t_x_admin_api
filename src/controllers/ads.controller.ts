@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express"
 import { AuthenticatedRequest } from "../types"
 import { BadRequestError, NotFoundError } from "../utils/errors"
 import { Ads } from "../models/ads.model"
-import { uploadToCloudinary } from "../services/fileupload.service"
+import { deleteFileFromCloudinary, uploadToCloudinary } from "../services/fileupload.service"
 import fs from 'fs'
 
 const createNewAd = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -181,7 +181,7 @@ const bulkEnableAds = async (req: AuthenticatedRequest, res: Response, next: Nex
     await Ads.updateMany({ _id: { $in: ad_ids } }, { status: 'enabled' })
 
     const updatedAds = await Ads.find({ _id: { $in: ad_ids } })
-    
+
     res.status(200).send({
         success: true,
         message: 'Ads enabled successfully',
@@ -236,6 +236,45 @@ const updateAd = async (req: AuthenticatedRequest, res: Response, next: NextFunc
 
 }
 
+const updateAdImage = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    const image = req.file
+    const { ad_id } = req.body
+
+    if (!image) {
+        return next(new BadRequestError('No image provided'));
+    }
+
+    let ad = await Ads.findById(ad_id);
+    if (!ad) {
+        return next(new NotFoundError('Ad not found'));
+    }
+
+    const downloadUrl = await uploadToCloudinary({
+        path: image.path,
+        fileName: image.filename,
+        destinationPath: 'ads'
+    });
+
+    if (ad.image) {
+        await deleteFileFromCloudinary(ad.image)
+    }
+
+    // Update the ad's image
+    ad.image = downloadUrl;
+    ad = await ad.save();
+
+    // Delete the image from the server
+    fs.unlinkSync(image.path)
+
+    res.status(200).send({
+        success: true,
+        message: 'Ad image updated successfully',
+        data: {
+            ad: ad
+        }
+    });
+}
+
 const deleteAd = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const { ad_id } = req.body
 
@@ -264,6 +303,7 @@ export {
     bulkDisableAds,
     bulkEnableAds,
     updateAd,
+    updateAdImage,
     deleteAd,
 }
 

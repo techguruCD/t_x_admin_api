@@ -9,6 +9,7 @@ import {
     bulkEnableAds,
     updateAd,
     deleteAd,
+    updateAdImage,
 } from '../controllers/ads.controller';
 import { basicAuth, withAuthentication } from '../middlewares/auth';
 import { multerUpload } from '../services/fileupload.service';
@@ -24,6 +25,7 @@ router
     .patch('/bulkdisable', basicAuth(), withAuthentication(bulkDisableAds))
     .patch('/bulkenable', basicAuth(), withAuthentication(bulkEnableAds))
     .patch('/update', basicAuth(), withAuthentication(updateAd))
+    .patch('/image/update', basicAuth(), multerUpload.single('image'), withAuthentication(updateAdImage))
     .delete('/delete', basicAuth(), withAuthentication(deleteAd))
-    
+
 export default router;

@@ -70,10 +70,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverURL}}/auth/signup",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/auth/signup",
 									"path": [
 										"auth",
 										"signup"
@@ -1113,10 +1110,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{serverURL}}/auth/loggedinuser",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/auth/loggedinuser",
 									"path": [
 										"auth",
 										"loggedinuser"
@@ -1254,10 +1248,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{serverURL}}/auth/authtoken",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/auth/authtoken",
 									"path": [
 										"auth",
 										"authtoken"
@@ -1377,10 +1368,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{serverURL}}/user",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/user",
 									"path": [
 										"user"
 									]
@@ -1537,10 +1525,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{serverURL}}/user/userinfo",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/user/userinfo",
 									"path": [
 										"user",
 										"userinfo"
@@ -1802,10 +1787,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{serverURL}}/ads/create",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/ads/create",
 									"path": [
 										"ads",
 										"create"
@@ -1917,7 +1899,8 @@
 								"ads",
 								"update"
 							]
-						}
+						},
+						"description": "This route does not include updating the ad's `status` and `image`.\n\nTo update the ad's image proceed to `PATCH /ads/image/update`\n\nTo update the ad's status proceed to `PATCH /ads/enable` or `PATCH /ads/disable`."
 					},
 					"response": [
 						{
@@ -1927,7 +1910,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"ad_id\": \"{{adId}}\",\r\n    \"name\": \"Updated ad name\",\r\n    \"url\": \"http://localhost:9347\",\r\n    \"expiry\": \"20-12-2028\" // DD-MM-YYYY\r\n}",
+									"raw": "{\r\n    \"ad_id\": \"\",\r\n    \"name\": \"Updated ad name\",\r\n    \"url\": \"http://localhost:9347\",\r\n    \"expiry\": \"20-12-2028\" // DD-MM-YYYY\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1935,10 +1918,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverURL}}/ads/update",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/ads/update",
 									"path": [
 										"ads",
 										"update"
@@ -2028,6 +2008,155 @@
 					]
 				},
 				{
+					"name": "Update ad image",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "3UgAaFynk/Done.png"
+								},
+								{
+									"key": "ad_id",
+									"value": "{{adId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/image/update",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"image",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "3UgAaFynk/Done.png"
+										},
+										{
+											"key": "ad_id",
+											"value": "",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/ads/image/update",
+									"path": [
+										"ads",
+										"image",
+										"update"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "451"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:58:39 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c3-NcclS3OmzZ8Slhhj1Og81z9iBQc\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "20bb1f28f0ed04861205d4e275c367c0"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ad image updated successfully\",\n    \"data\": {\n        \"ad\": {\n            \"_id\": \"64df24318fd140103f553025\",\n            \"name\": \"Test ad 5\",\n            \"url\": \"https://google.com\",\n            \"status\": \"enabled\",\n            \"expiry\": \"2023-12-20T00:00:00.000Z\",\n            \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692345472/ads/dd9a8d5a-1cc7-40e1-9c26-c17cbe9667b4Done.png.png\",\n            \"createdAt\": \"2023-08-18T07:56:35.524Z\",\n            \"updatedAt\": \"2023-08-18T07:58:39.025Z\",\n            \"__v\": 0,\n            \"id\": \"64df24318fd140103f553025\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "Get ad info",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -2077,10 +2206,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverURL}}/ads/info?ad_id={{adId}}",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/ads/info?ad_id=",
 									"path": [
 										"ads",
 										"info"
@@ -2088,7 +2214,7 @@
 									"query": [
 										{
 											"key": "ad_id",
-											"value": "{{adId}}"
+											"value": ""
 										}
 									]
 								}
@@ -2245,10 +2371,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverURL}}/ads",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/ads",
 									"path": [
 										"ads"
 									],
@@ -2396,7 +2519,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+									"raw": "{\r\n    \"ad_id\": \"\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2404,10 +2527,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{serverURL}}/ads/enable",
-									"host": [
-										"{{serverURL}}"
-									],
+									"raw": "/ads/enable",
 									"path": [
 										"ads",
 										"enable"
@@ -2707,6 +2827,136 @@
 					]
 				},
 				{
+					"name": "Bulk enable ads",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ad_ids\": [\r\n        \"64df1f909c55115a36989502\",\r\n        \"64df1a8b76839c9aad1b94ee\",\r\n        \"64df1a3daf10d6942c52ed24\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/bulkenable",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"bulkenable"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ad_ids\": [\r\n        \"64df1f909c55115a36989502\",\r\n        \"64df1a8b76839c9aad1b94ee\",\r\n        \"64df1a3daf10d6942c52ed24\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/ads/bulkenable",
+									"path": [
+										"ads",
+										"bulkenable"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1208"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:44:00 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4b8-w5wWgC0HVszH2RlsJ81mR2YEK9A\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "82a3595be19bbebd7c0476c1fb5d305a"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ads enabled successfully\",\n    \"data\": {\n        \"ads\": [\n            {\n                \"_id\": \"64df1a3daf10d6942c52ed24\",\n                \"name\": \"Test ad\",\n                \"url\": \"https://google.com\",\n                \"status\": \"enabled\",\n                \"expiry\": \"2023-12-20T00:00:00.000Z\",\n                \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342802/ads/582d51d8-14ba-47ab-b669-0c962fb90465white.png.png\",\n                \"createdAt\": \"2023-08-18T07:14:07.638Z\",\n                \"updatedAt\": \"2023-08-18T07:44:00.225Z\",\n                \"__v\": 0,\n                \"id\": \"64df1a3daf10d6942c52ed24\"\n            },\n            {\n                \"_id\": \"64df1a8b76839c9aad1b94ee\",\n                \"name\": \"Test ad 1\",\n                \"url\": \"https://google.com\",\n                \"status\": \"enabled\",\n                \"expiry\": \"2023-12-20T00:00:00.000Z\",\n                \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342879/ads/266e1e63-d80f-4581-aed3-781a7231762bwhite.png.png\",\n                \"createdAt\": \"2023-08-18T07:15:24.843Z\",\n                \"updatedAt\": \"2023-08-18T07:44:00.225Z\",\n                \"__v\": 0,\n                \"id\": \"64df1a8b76839c9aad1b94ee\"\n            },\n            {\n                \"_id\": \"64df1f909c55115a36989502\",\n                \"name\": \"Test ad 2\",\n                \"url\": \"https://google.com\",\n                \"status\": \"enabled\",\n                \"expiry\": \"2023-12-20T00:00:00.000Z\",\n                \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692344164/ads/85de4fe0-b9fd-485b-af4c-acba6c45ded3white.png.png\",\n                \"createdAt\": \"2023-08-18T07:36:49.889Z\",\n                \"updatedAt\": \"2023-08-18T07:44:00.225Z\",\n                \"__v\": 0,\n                \"id\": \"64df1f909c55115a36989502\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "Disable ad",
 					"request": {
 						"method": "PATCH",
@@ -2836,6 +3086,139 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"success\": true,\n    \"message\": \"Ad disabled successfully \",\n    \"data\": {\n        \"ad\": {\n            \"_id\": \"64df1ad576839c9aad1b94f0\",\n            \"name\": \"Test ad 2\",\n            \"url\": \"https://google.com\",\n            \"status\": \"disabled\",\n            \"expiry\": \"2023-12-20T00:00:00.000Z\",\n            \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342954/ads/db083661-a4ab-4fb8-8422-ec443ba0cfafwhite.png.png\",\n            \"createdAt\": \"2023-08-18T07:16:39.524Z\",\n            \"updatedAt\": \"2023-08-18T07:25:06.430Z\",\n            \"__v\": 0,\n            \"id\": \"64df1ad576839c9aad1b94f0\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Bulk disable ad",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ad_ids\": [\r\n        \"64df1f909c55115a36989502\",\r\n        \"64df1a8b76839c9aad1b94ee\",\r\n        \"64df1a3daf10d6942c52ed24\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/bulkdisable",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"bulkdisable"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ad_ids\": [\r\n        \"64df1f909c55115a36989502\",\r\n        \"64df1a8b76839c9aad1b94ee\",\r\n        \"64df1a3daf10d6942c52ed24\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/bulkdisable",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"bulkdisable"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1212"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:43:00 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4bc-dPbDLUJIqaMnAnhBNbQ/3oFbaec\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "9b91c28ba385931c2100d3852828d9be"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ads disabled successfully\",\n    \"data\": {\n        \"ads\": [\n            {\n                \"_id\": \"64df1a3daf10d6942c52ed24\",\n                \"name\": \"Test ad\",\n                \"url\": \"https://google.com\",\n                \"status\": \"disabled\",\n                \"expiry\": \"2023-12-20T00:00:00.000Z\",\n                \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342802/ads/582d51d8-14ba-47ab-b669-0c962fb90465white.png.png\",\n                \"createdAt\": \"2023-08-18T07:14:07.638Z\",\n                \"updatedAt\": \"2023-08-18T07:43:00.229Z\",\n                \"__v\": 0,\n                \"id\": \"64df1a3daf10d6942c52ed24\"\n            },\n            {\n                \"_id\": \"64df1a8b76839c9aad1b94ee\",\n                \"name\": \"Test ad 1\",\n                \"url\": \"https://google.com\",\n                \"status\": \"disabled\",\n                \"expiry\": \"2023-12-20T00:00:00.000Z\",\n                \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342879/ads/266e1e63-d80f-4581-aed3-781a7231762bwhite.png.png\",\n                \"createdAt\": \"2023-08-18T07:15:24.843Z\",\n                \"updatedAt\": \"2023-08-18T07:43:00.229Z\",\n                \"__v\": 0,\n                \"id\": \"64df1a8b76839c9aad1b94ee\"\n            },\n            {\n                \"_id\": \"64df1f909c55115a36989502\",\n                \"name\": \"Test ad 2\",\n                \"url\": \"https://google.com\",\n                \"status\": \"disabled\",\n                \"expiry\": \"2023-12-20T00:00:00.000Z\",\n                \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692344164/ads/85de4fe0-b9fd-485b-af4c-acba6c45ded3white.png.png\",\n                \"createdAt\": \"2023-08-18T07:36:49.889Z\",\n                \"updatedAt\": \"2023-08-18T07:43:00.229Z\",\n                \"__v\": 0,\n                \"id\": \"64df1f909c55115a36989502\"\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
