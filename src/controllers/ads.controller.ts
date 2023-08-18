@@ -3,6 +3,7 @@ import { AuthenticatedRequest } from "../types"
 import { BadRequestError, NotFoundError } from "../utils/errors"
 import { Ads } from "../models/ads.model"
 import { uploadToCloudinary } from "../services/fileupload.service"
+import fs from 'fs'
 
 const createNewAd = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const {
@@ -11,8 +12,9 @@ const createNewAd = async (req: AuthenticatedRequest, res: Response, next: NextF
 
     const image = req.file
 
-    // Change timezone to UTC
-    const expiryDate = new Date(expiry).toISOString()
+    // Change date from DD-MM-YYYY to UTC
+    const [day, month, year] = expiry.split('-').map(Number);
+    const expiryDate = new Date(new Date(Date.UTC(year, month - 1, day))).toISOString()
 
     let newAd = new Ads({
         name, url, expiry: expiryDate,
@@ -30,6 +32,9 @@ const createNewAd = async (req: AuthenticatedRequest, res: Response, next: NextF
 
     newAd.image = secure_url
     newAd = await newAd.save()
+
+    // Delete image from local storage
+    fs.unlinkSync(image.path)
 
     res.status(201).send({
         success: true,
@@ -61,17 +66,27 @@ const getAdInfo = async (req: AuthenticatedRequest, res: Response, next: NextFun
 const getAds = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const {
         limit, image, url, expiry, status, name
-    } = req.query
+    }: {
+        limit: number,
+        image: string,
+        url: string,
+        expiry: `${number}-${number}-${number}`,
+        status: string,
+        name: string
+    } = req.query as any
 
     const query: any = {}
 
     if (image) { query.image = image }
     if (url) { query.url = url }
-    if (expiry) { query.expiry = expiry }
+    if (expiry) {
+        const [day, month, year] = expiry.split('-').map(Number);
+        query.expiry = new Date(new Date(Date.UTC(year, month - 1, day))).toISOString()
+    }
     if (status) { query.status = status }
     if (name) { query.name = name }
 
-    const ads = await Ads.find(query).limit(parseInt(limit as string))
+    const ads = await Ads.find(query).limit(limit)
 
     res.status(200).send({
         success: true,
@@ -83,7 +98,7 @@ const getAds = async (req: AuthenticatedRequest, res: Response, next: NextFuncti
 }
 
 const disableAd = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const { ad_id } = req.query
+    const { ad_id } = req.body
 
     const ad = await Ads.findOne({ _id: ad_id })
     if (!ad) {
@@ -107,7 +122,7 @@ const disableAd = async (req: AuthenticatedRequest, res: Response, next: NextFun
 }
 
 const enableAd = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const { ad_id } = req.query
+    const { ad_id } = req.body
 
     const ad = await Ads.findOne({ _id: ad_id })
     if (!ad) {
@@ -174,20 +189,21 @@ const bulkEnableAds = async (req: AuthenticatedRequest, res: Response, next: Nex
 
 const updateAd = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const { ad_id } = req.body
-    const { name, url, expiry, status } = req.body
+    const { name, url, expiry } = req.body
 
     const existingAd = await Ads.findOne({ _id: ad_id })
     if (!existingAd) {
         return next(new NotFoundError('Ad not found'))
     }
 
-    const expiryDate = expiry ? new Date(expiry).toISOString() : undefined
     const updateQuery = {} as any
 
     if (name) { updateQuery.name = name }
     if (url) { updateQuery.url = url }
-    if (expiry) { updateQuery.expiry = expiryDate }
-    if (status) { updateQuery.status = status }
+    if (expiry) {
+        const [day, month, year] = expiry.split('-').map(Number);
+        updateQuery.expiry = new Date(new Date(Date.UTC(year, month - 1, day))).toISOString()
+    }
 
     const imageFile = req.file
     if (imageFile) {
@@ -199,7 +215,7 @@ const updateAd = async (req: AuthenticatedRequest, res: Response, next: NextFunc
 
         updateQuery.image = secureUrl
     }
-    
+
     if (Object.keys(updateQuery).length === 0) {
         return next(new BadRequestError('No update parameters provided'))
     }
@@ -213,11 +229,11 @@ const updateAd = async (req: AuthenticatedRequest, res: Response, next: NextFunc
             ad: updatedAd
         }
     })
-   
+
 }
 
 const deleteAd = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const { ad_id } = req.query
+    const { ad_id } = req.body
 
     const ad = await Ads.findOne({ _id: ad_id })
     if (!ad) {

@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "02e29920-aefc-45e4-b1a8-74c0715d4c37",
+		"_postman_id": "74fb1ca5-6208-469e-a982-0fc5e70f33fc",
 		"name": "Admin API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20633788",
-		"_collection_link": "https://solar-trinity-709252.postman.co/workspace/SwiftVia~ea0cb741-b72f-4827-962e-997bca5c8f91/collection/20633788-02e29920-aefc-45e4-b1a8-74c0715d4c37?action=share&source=collection_link&creator=20633788"
+		"_exporter_id": "20633788"
 	},
 	"item": [
 		{
@@ -226,15 +225,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "{{serverURL}}/auth/verificationemail?email=genxsuperadmin3@gmail.com",
 									"host": [
@@ -660,7 +650,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password_reset_code\": 5883,\r\n    \"new_password\": \"TestPassword2\"\r\n}",
+							"raw": "{\r\n    \"password_reset_code\": 5781,\r\n    \"new_password\": \"TestPassword2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -823,7 +813,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"genxsuperadmin3@gmail.com\",\r\n    \"password\": \"newtestpassword1\"\r\n}",
+							"raw": "{\r\n    \"email\": \"genxadmin5@gmail.com\",\r\n    \"password\": \"TestPassword1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1263,15 +1253,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "{{serverURL}}/auth/authtoken",
 									"host": [
@@ -1725,6 +1706,1303 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Ads",
+			"item": [
+				{
+					"name": "Create new ad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"if (response.data) {\r",
+									"    const ad = response.data.ad\r",
+									"    \r",
+									"    if (ad){\r",
+									"        pm.collectionVariables.set('adId', ad._id)\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Test ad 1",
+									"type": "text"
+								},
+								{
+									"key": "url",
+									"value": "https://google.com",
+									"type": "text"
+								},
+								{
+									"key": "expiry",
+									"value": "20-12-2023",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "6ZHFWeqPL/white.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/create",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Test ad 1",
+											"type": "text"
+										},
+										{
+											"key": "url",
+											"value": "https://google.com",
+											"type": "text"
+										},
+										{
+											"key": "expiry",
+											"value": "20-12-2023",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "6ZHFWeqPL/white.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/create",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"create"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "461"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:15:25 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1cd-t8bMz5qRc1BkQqISSBgMJPwivJ4\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "fdcc5832afb31a4dea3302ca7b60f55d"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ad created successfully\",\n    \"data\": {\n        \"ad\": {\n            \"name\": \"Test ad 1\",\n            \"url\": \"https://google.com\",\n            \"status\": \"enabled\",\n            \"expiry\": \"2023-12-20T00:00:00.000Z\",\n            \"hidden\": false,\n            \"_id\": \"64df1a8b76839c9aad1b94ee\",\n            \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342879/ads/266e1e63-d80f-4581-aed3-781a7231762bwhite.png.png\",\n            \"createdAt\": \"2023-08-18T07:15:24.843Z\",\n            \"updatedAt\": \"2023-08-18T07:15:24.843Z\",\n            \"__v\": 0,\n            \"id\": \"64df1a8b76839c9aad1b94ee\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update ad",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/update",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ad_id\": \"{{adId}}\",\r\n    \"name\": \"Updated ad name\",\r\n    \"url\": \"http://localhost:9347\",\r\n    \"expiry\": \"20-12-2028\" // DD-MM-YYYY\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/update",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"update"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "455"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:28:46 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c7-4v9u6YCk1qXRfjp8/Phe2lcdMNo\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "63f8b9eb3864d4286623db6ded594ea8"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ad updated successfully\",\n    \"data\": {\n        \"ad\": {\n            \"_id\": \"64df1ad576839c9aad1b94f0\",\n            \"name\": \"Updated ad name\",\n            \"url\": \"http://localhost:9347\",\n            \"status\": \"enabled\",\n            \"expiry\": \"2028-12-20T00:00:00.000Z\",\n            \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342954/ads/db083661-a4ab-4fb8-8422-ec443ba0cfafwhite.png.png\",\n            \"createdAt\": \"2023-08-18T07:16:39.524Z\",\n            \"updatedAt\": \"2023-08-18T07:28:46.517Z\",\n            \"__v\": 0,\n            \"id\": \"64df1ad576839c9aad1b94f0\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get ad info",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/info?ad_id={{adId}}",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"info"
+							],
+							"query": [
+								{
+									"key": "ad_id",
+									"value": "{{adId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/info?ad_id={{adId}}",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"info"
+									],
+									"query": [
+										{
+											"key": "ad_id",
+											"value": "{{adId}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "431"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:16:58 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1af-ez+mI23WbqWsKXMc+Dqaprg2c+w\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "367bd4a6b28f6d627d975afbce378483"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ad found\",\n    \"data\": {\n        \"ad\": {\n            \"_id\": \"64df1ad576839c9aad1b94f0\",\n            \"name\": \"Test ad 2\",\n            \"url\": \"https://google.com\",\n            \"status\": \"enabled\",\n            \"expiry\": \"2023-12-20T00:00:00.000Z\",\n            \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342954/ads/db083661-a4ab-4fb8-8422-ec443ba0cfafwhite.png.png\",\n            \"createdAt\": \"2023-08-18T07:16:39.524Z\",\n            \"updatedAt\": \"2023-08-18T07:16:39.524Z\",\n            \"__v\": 0,\n            \"id\": \"64df1ad576839c9aad1b94f0\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get ads",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads"
+							],
+							"query": [
+								{
+									"key": "url",
+									"value": "https://google.com",
+									"disabled": true
+								},
+								{
+									"key": "expiry",
+									"value": "20-12-2023",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "enabled",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Test ad 1",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342802/ads/582d51d8-14ba-47ab-b669-0c962fb90465white.png.png",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads"
+									],
+									"query": [
+										{
+											"key": "url",
+											"value": "https://google.com",
+											"disabled": true
+										},
+										{
+											"key": "expiry",
+											"value": "20-12-2023",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": "enabled",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Test ad 1",
+											"disabled": true
+										},
+										{
+											"key": "image",
+											"value": "https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342802/ads/582d51d8-14ba-47ab-b669-0c962fb90465white.png.png",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "433"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:21:59 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1b1-L04k3AV7L8/LjZQlt2zSY56T8s4\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "82d79c417033cd6517916b55a12820cc"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ads found\",\n    \"data\": {\n        \"ads\": [\n            {\n                \"_id\": \"64df1a3daf10d6942c52ed24\",\n                \"name\": \"Test ad\",\n                \"url\": \"https://google.com\",\n                \"status\": \"enabled\",\n                \"expiry\": \"2023-12-20T00:00:00.000Z\",\n                \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342802/ads/582d51d8-14ba-47ab-b669-0c962fb90465white.png.png\",\n                \"createdAt\": \"2023-08-18T07:14:07.638Z\",\n                \"updatedAt\": \"2023-08-18T07:14:07.638Z\",\n                \"__v\": 0,\n                \"id\": \"64df1a3daf10d6942c52ed24\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Enable ad",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/enable",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"enable"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Error: Ad not found",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/enable",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"enable"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "38"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:23:05 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"26-I2IrSDfsTzYhG+8C0XjBU+vqVrE\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "49758e0cece4adb963dfc16c8fc0c7e8"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": null,\n    \"message\": \"Ad not found\"\n}"
+						},
+						{
+							"name": "Error: Ad already enabled",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/enable",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"enable"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "44"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:23:46 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"2c-Z0pWd7PI942V5q/6A8w6ekTowk8\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "311d81cab9f9b1510deb34c25b2069a6"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": null,\n    \"message\": \"Ad already enabled\"\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/enable",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"enable"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "447"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:25:22 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1bf-VTZQAyCeq2mnvMZ+fQQq9w0jzA4\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "d800b9470b4e04e9bff94b3f81dd6b5f"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ad enaabled successfully\",\n    \"data\": {\n        \"ad\": {\n            \"_id\": \"64df1ad576839c9aad1b94f0\",\n            \"name\": \"Test ad 2\",\n            \"url\": \"https://google.com\",\n            \"status\": \"enabled\",\n            \"expiry\": \"2023-12-20T00:00:00.000Z\",\n            \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342954/ads/db083661-a4ab-4fb8-8422-ec443ba0cfafwhite.png.png\",\n            \"createdAt\": \"2023-08-18T07:16:39.524Z\",\n            \"updatedAt\": \"2023-08-18T07:25:22.240Z\",\n            \"__v\": 0,\n            \"id\": \"64df1ad576839c9aad1b94f0\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Disable ad",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/disable",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"disable"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/disable",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"disable"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "449"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:25:06 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c1-1CqlRdHKGLuwD2bGGoyij/ielWg\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "56a32dbfca831519c3a3ec0df08996a8"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ad disabled successfully \",\n    \"data\": {\n        \"ad\": {\n            \"_id\": \"64df1ad576839c9aad1b94f0\",\n            \"name\": \"Test ad 2\",\n            \"url\": \"https://google.com\",\n            \"status\": \"disabled\",\n            \"expiry\": \"2023-12-20T00:00:00.000Z\",\n            \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342954/ads/db083661-a4ab-4fb8-8422-ec443ba0cfafwhite.png.png\",\n            \"createdAt\": \"2023-08-18T07:16:39.524Z\",\n            \"updatedAt\": \"2023-08-18T07:25:06.430Z\",\n            \"__v\": 0,\n            \"id\": \"64df1ad576839c9aad1b94f0\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete ad",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverURL}}/ads/delete",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"ads",
+								"delete"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ad_id\": \"{{adId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverURL}}/ads/delete",
+									"host": [
+										"{{serverURL}}"
+									],
+									"path": [
+										"ads",
+										"delete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "455"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Aug 2023 07:30:28 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c7-Cvg9bCu8k/L2Z+MZxWyn4Rd8pSM\""
+								},
+								{
+									"key": "Ngrok-Trace-Id",
+									"value": "d84bf6c6a06abcb8d99bf0a540f13de4"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ad deleted successfully\",\n    \"data\": {\n        \"ad\": {\n            \"_id\": \"64df1ad576839c9aad1b94f0\",\n            \"name\": \"Updated ad name\",\n            \"url\": \"http://localhost:9347\",\n            \"status\": \"enabled\",\n            \"expiry\": \"2028-12-20T00:00:00.000Z\",\n            \"image\": \"https://res.cloudinary.com/ddr8rihqd/image/upload/v1692342954/ads/db083661-a4ab-4fb8-8422-ec443ba0cfafwhite.png.png\",\n            \"createdAt\": \"2023-08-18T07:16:39.524Z\",\n            \"updatedAt\": \"2023-08-18T07:28:46.517Z\",\n            \"__v\": 0,\n            \"id\": \"64df1ad576839c9aad1b94f0\"\n        }\n    }\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{accessToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		}
 	],
 	"event": [
@@ -1771,6 +3049,10 @@
 		},
 		{
 			"key": "refreshToken",
+			"value": ""
+		},
+		{
+			"key": "adId",
 			"value": ""
 		}
 	]

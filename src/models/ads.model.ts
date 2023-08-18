@@ -11,7 +11,7 @@ const adsSchema = new Schema(
         url: { type: String, required: true },
         status: { type: String, enum: ['enabled', 'disabled'], default: 'enabled' },
         expiry: { type: Date, required: true },
-        hidden: { type: Boolean, default: false }
+        hidden: { type: Boolean, default: false, select: false }
     }, options
 )
 
