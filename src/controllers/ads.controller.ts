@@ -155,7 +155,9 @@ const bulkDisableAds = async (req: AuthenticatedRequest, res: Response, next: Ne
         return next(new NotFoundError('Some ads not found'))
     }
 
-    const updatedAds = await Ads.updateMany({ _id: { $in: ad_ids } }, { status: 'disabled' })
+    await Ads.updateMany({ _id: { $in: ad_ids } }, { status: 'disabled' })
+
+    const updatedAds = await Ads.find({ _id: { $in: ad_ids } })
 
     res.status(200).send({
         success: true,
@@ -176,8 +178,10 @@ const bulkEnableAds = async (req: AuthenticatedRequest, res: Response, next: Nex
         return next(new NotFoundError('Some ads not found'))
     }
 
-    const updatedAds = await Ads.updateMany({ _id: { $in: ad_ids } }, { status: 'enabled' })
+    await Ads.updateMany({ _id: { $in: ad_ids } }, { status: 'enabled' })
 
+    const updatedAds = await Ads.find({ _id: { $in: ad_ids } })
+    
     res.status(200).send({
         success: true,
         message: 'Ads enabled successfully',
