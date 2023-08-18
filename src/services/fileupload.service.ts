@@ -16,11 +16,17 @@ const storage = multer.diskStorage({
 const multerUpload = multer({ storage });
 
 
+cloudinary.v2.config({
+    cloud_name: CLOUDINARY_CLOUD_NAME,
+    api_key: CLOUDINARY_API_KEY,
+    api_secret: CLOUDINARY_API_SECRET
+});
 interface ICloudinaryFileOptions {
     path: string;
     fileName: string;
     destinationPath: string;
 }
+
 async function uploadToCloudinary(file_options: ICloudinaryFileOptions) {
     const {
         path, fileName, destinationPath
@@ -29,12 +35,6 @@ async function uploadToCloudinary(file_options: ICloudinaryFileOptions) {
     if (!path || !fileName || !destinationPath) {
         throw new Error('Invalid file options');
     }
-
-    cloudinary.v2.config({
-        cloud_name: CLOUDINARY_CLOUD_NAME,
-        api_key: CLOUDINARY_API_KEY,
-        api_secret: CLOUDINARY_API_SECRET
-    });
 
     const { secure_url } = await cloudinary.v2.uploader.upload(path, {
         folder: destinationPath,
@@ -45,4 +45,13 @@ async function uploadToCloudinary(file_options: ICloudinaryFileOptions) {
     return secure_url
 }
 
-export { multerUpload, uploadToCloudinary };
+async function deleteFileFromCloudinary(fileURl: string) {
+    const publicId = fileURl.split('/').pop()?.split('.')[0];
+    if (!publicId) {
+        throw new Error('Invalid file url');
+    }
+
+    await cloudinary.v2.uploader.destroy(publicId);
+}
+
+export { multerUpload, uploadToCloudinary, deleteFileFromCloudinary };
