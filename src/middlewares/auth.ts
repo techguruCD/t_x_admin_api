@@ -21,6 +21,7 @@ const basicAuth = (tokenType?: AuthToken) => {
             : config.JWT_ACCESS_SECRET;
 
         const jwtToken = authHeader.split(' ')[1];
+        console.log(jwtToken)
         const payload = jwt.verify(jwtToken, secret);
 
         (req as any).user = Object(payload) as AdminWithStatus;
