@@ -6,10 +6,10 @@ import { NodeENV } from './types';
  * i.e
  * if NODE_ENV = 'dev' use .env.dev file
  * if NODE_ENV = 'prod' use .env.prod
- * if NODE_ENV = 'test' use .env.prod
+ * if NODE_ENV = 'test' use .env.test
  */
 const NODE_ENV = process.env.NODE_ENV as NodeENV;
-let path = NODE_ENV
+const path = NODE_ENV != 'prod'
     ? `${__dirname}/../.env.${NODE_ENV}`
     : `${__dirname}/../.env`;
 dotenv.config({ path });

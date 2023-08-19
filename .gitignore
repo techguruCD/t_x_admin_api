@@ -1,5 +1,4 @@
 node_modules
 src/.env.dev
-.env.dev
 .env**
 dist

@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "start": "cross-env NODE_ENV=prod node ./dist/server.js",
+        "start": "tsc -b && cross-env NODE_ENV=prod node ./dist/server.js",
         "dev": "cross-env NODE_ENV=dev  ts-node-dev --respawn --transpile-only ./src/server.ts",
         "transpile:copy": "tsc -b"
     },
