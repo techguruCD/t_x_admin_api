@@ -97,7 +97,7 @@ const verifyUserEmail = async (req: AuthenticatedRequest, res: Response, next: N
 
     const validVerificationCode = authCode && authCode == verificationCode.toString();
     if (!validVerificationCode) {
-        throw new NotFoundError('Invalid verification code');
+        throw new BadRequesError('Invalid verification code');
     }
 
     await Status.findOneAndUpdate({ admin: user._id }, { isVerified: true });
