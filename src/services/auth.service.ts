@@ -9,6 +9,7 @@ import { Email, AuthCode, AuthToken } from '../types';
 import { BadRequestError } from '../utils/errors';
 import { sendEmail } from './email.service';
 import logger from '../middlewares/winston';
+import { randomUUID } from 'crypto';
 
 type AuthClass = 'code' | 'token'
 const sensitiveFilter = {
@@ -230,13 +231,14 @@ async function generateAuthCodes<T extends AuthCode>
 
 async function generateAuthTokens
     (user: AdminWithStatus, tokenType: AuthToken = 'access')
-    : Promise<{ access_token: string; refresh_token: string | undefined }> {
+    : Promise<{ access_token: string; refresh_token: string | undefined, cookie_bind_id: string }> {
+    const cookieBindId = randomUUID()
     const data = user.toObject() as AdminWithStatus
 
     // Access token usecase may vary, so we can't use the same secret for all
     const { secret, expiry } = getJWTConfigVariables(tokenType);
     const access_token = jwt.sign(data, secret, { expiresIn: expiry });
-    const refresh_token = jwt.sign(data, config.JWT_REFRESH_SECRET, {
+    const refresh_token = jwt.sign({ ...data, cookie_bind_id: cookieBindId }, config.JWT_REFRESH_SECRET, {
         expiresIn: config.JWT_REFRESH_EXP,
     });
 
@@ -250,7 +252,7 @@ async function generateAuthTokens
     if (tokenType == 'access') {
         saveTokenToCacheMemory({
             type: 'refresh',
-            email: user.email,
+            email: cookieBindId,
             token: refresh_token,
             expiry: config.JWT_REFRESH_EXP
         })
@@ -261,9 +263,8 @@ async function generateAuthTokens
     // then return the refresh token, else return undefined
     return {
         access_token,
-        refresh_token: secret == config.JWT_ACCESS_SECRET
-            ? refresh_token
-            : undefined,
+        refresh_token: tokenType === 'access' ? refresh_token : undefined,
+        cookie_bind_id: cookieBindId
     };
 }
 

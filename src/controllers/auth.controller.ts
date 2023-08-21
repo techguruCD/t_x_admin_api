@@ -221,17 +221,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         return next(new BadRequestError('Incorrect password'));
     }
 
-    const { access_token, refresh_token } = await generateAuthTokens(user, 'access');
+    const { access_token, refresh_token, cookie_bind_id } = await generateAuthTokens(user, 'access');
 
-    const tokenBind = randomUUID();
-    await saveTokenToCacheMemory({
-        type: 'cookie_bind',
-        token: tokenBind,
-        email: user.email,
-        expiry: JWT_REFRESH_EXP,
-    });
-
-    res.cookie('cookie_bind_id', tokenBind, {
+    res.cookie('cookie_bind_id', cookie_bind_id, {
         httpOnly: true,
         expires: new Date(Date.now() + JWT_REFRESH_EXP * 1000),
         sameSite: 'strict',
