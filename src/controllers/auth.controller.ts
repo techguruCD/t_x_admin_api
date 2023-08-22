@@ -97,7 +97,7 @@ const verifyUserEmail = async (req: AuthenticatedRequest, res: Response, next: N
 
     const validVerificationCode = authCode && authCode == verificationCode.toString();
     if (!validVerificationCode) {
-        throw new NotFoundError('Invalid verification code');
+        throw new BadRequestError('Invalid verification code');
     }
 
     await Status.findOneAndUpdate({ admin: user._id }, { isVerified: true });
@@ -221,17 +221,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         return next(new BadRequestError('Incorrect password'));
     }
 
-    const { access_token, refresh_token } = await generateAuthTokens(user, 'access');
+    const { access_token, refresh_token, cookie_bind_id } = await generateAuthTokens(user, 'access');
 
-    const tokenBind = randomUUID();
-    await saveTokenToCacheMemory({
-        type: 'cookie_bind',
-        token: tokenBind,
-        email: user.email,
-        expiry: JWT_REFRESH_EXP,
-    });
-
-    res.cookie('cookie_bind_id', tokenBind, {
+    res.cookie('cookie_bind_id', cookie_bind_id, {
         httpOnly: true,
         expires: new Date(Date.now() + JWT_REFRESH_EXP * 1000),
         sameSite: 'strict',
@@ -249,19 +241,25 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const logout = async (req: AuthenticatedRequest, res: Response) => {
-    deleteAuthFromCacheMemory({
+    await deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'access',
     });
 
-    deleteAuthFromCacheMemory({
+    await deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'cookie_bind',
     });
 
-    deleteAuthFromCacheMemory({
+    await deleteAuthFromCacheMemory({
+        authClass: 'token',
+        email: req.cookies['cookie_bind_id'],
+        type: 'refresh',
+    });
+
+    await deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'refresh',

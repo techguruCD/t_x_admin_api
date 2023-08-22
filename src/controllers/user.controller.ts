@@ -29,7 +29,7 @@ const getUserInfo = async (req: AuthenticatedRequest, res: Response, next: NextF
 
     res.status(200).send({
         success: true,
-        mesage: "User info fetched successfully",
+        message: "User info fetched successfully",
         data: {
             user
         }

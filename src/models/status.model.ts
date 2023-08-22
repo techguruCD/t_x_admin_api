@@ -12,6 +12,6 @@ const status_schema = new Schema<IStatusDoc>(
     options
 );
 
-const Status: Model<IStatusDoc> = model<IStatusDoc>('Status', status_schema);
+const Status: Model<IStatusDoc> = model<IStatusDoc>('Status', status_schema, 'Status');
 
 export { Status, status_schema, IStatusDoc };

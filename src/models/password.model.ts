@@ -31,6 +31,6 @@ password_schema.pre('save', async function save(next) {
     next();
 })
 
-const Password: Model<IPasswordDoc> = model<IPasswordDoc>('Password', password_schema);
+const Password: Model<IPasswordDoc> = model<IPasswordDoc>('Password', password_schema, 'Passwords');
 
 export { Password, IPassword, IPasswordDoc, password_schema };

@@ -70,7 +70,7 @@ adminSchema.pre('validate', async function (next) {
     next();
 });
 
-const Admin: Model<IAdminDoc> = model<IAdminDoc>('Admin', adminSchema)
+const Admin: Model<IAdminDoc> = model<IAdminDoc>('Admin', adminSchema, 'Admins')
 const User = model('Users', userSchema, 'Users');
 
 export {
