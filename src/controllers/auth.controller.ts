@@ -241,19 +241,25 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const logout = async (req: AuthenticatedRequest, res: Response) => {
-    deleteAuthFromCacheMemory({
+    await deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'access',
     });
 
-    deleteAuthFromCacheMemory({
+    await deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'cookie_bind',
     });
 
-    deleteAuthFromCacheMemory({
+    await deleteAuthFromCacheMemory({
+        authClass: 'token',
+        email: req.cookies['cookie_bind_id'],
+        type: 'refresh',
+    });
+
+    await deleteAuthFromCacheMemory({
         authClass: 'token',
         email: req.user.email,
         type: 'refresh',

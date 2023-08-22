@@ -252,7 +252,8 @@ async function generateAuthTokens
     if (tokenType == 'access') {
         saveTokenToCacheMemory({
             type: 'refresh',
-            email: cookieBindId,
+            // TODO: Update field name from email to identifier
+            email: cookieBindId as Email,
             token: refresh_token,
             expiry: config.JWT_REFRESH_EXP
         })
