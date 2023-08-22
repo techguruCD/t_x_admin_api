@@ -54,3 +54,5 @@ export const EMAIL_HOST: string = process.env.EMAIL_HOST as string,
 export const CLOUDINARY_CLOUD_NAME: string = process.env.CLOUDINARY_CLOUD_NAME as string,
     CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY as string,
     CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET as string;
+
+export const CLIENT_ORIGIN : string = process.env.CLIENT_ORIGIN as string

@@ -3,7 +3,7 @@ import 'express-async-errors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import cors, { CorsOptions } from 'cors';
-import { NODE_ENV } from './config';
+import { CLIENT_ORIGIN, NODE_ENV } from './config';
 import errorHandler from './middlewares/error-handler';
 import routeHandler from './routes';
 import cookieParser from 'cookie-parser';
@@ -19,7 +19,7 @@ function initMiddlewares(app: Application) {
     }
 
     app.use(cors({
-        origin: 'http://localhost:5173',
+        origin: CLIENT_ORIGIN,
         credentials: true
     }));
 
