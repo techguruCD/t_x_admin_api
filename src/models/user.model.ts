@@ -59,11 +59,10 @@ adminSchema.virtual('status', {
     foreignField: 'admin',
     justOne: true,
 });
-adminSchema.pre('validate', async function (next) {
+adminSchema.pre('save', async function (next) {
     if (this.isNew) {
         const status = new Status({ admin: this._id });
-        status.isActive = true;
-
+        // status.isActive = true;
         await status.save();
     }
 
