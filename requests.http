@@ -1,6 +1,7 @@
 @BASE_URL=http://localhost:3003
 @ADMINS_BASE_URL={{BASE_URL}}/api/admins
 @USERS_BASE_URL={{BASE_URL}}/api/users
+@ADS_BASE_URL={{BASE_URL}}/api/ads
 @cookie=jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGZhMDZhYzlmMGFhMTgyYzAxNTNmNzIiLCJpYXQiOjE2OTQxMDc1NzF9.nFBOfuUmHw24KkUhwd3AeuWCY9TKP4ZykBcOER6i8oM;
 
 ### ping
@@ -42,4 +43,26 @@ Cookie: {{cookie}}
 
 ### get all users
 GET {{USERS_BASE_URL}}/list?skip=0 HTTP/1.1
+Cookie: {{cookie}}
+
+### create ad
+
+POST {{ADS_BASE_URL}} HTTP/1.1
+Content-Type: application/json
+Cookie: {{cookie}}
+
+{
+  "name": "newAd",
+  "image": "https://picsum.photos/200/300",
+  "url": "https://adUrl.com",
+  "status": "enabled",
+  "expiry": false
+}
+
+### get all ads
+GET {{ADS_BASE_URL}} HTTP/1.1
+Cookie: {{cookie}}
+
+### get a specific ad
+GET {{ADS_BASE_URL}}/64fa24b5135114bebdf857f0/info HTTP/1.1
 Cookie: {{cookie}}
