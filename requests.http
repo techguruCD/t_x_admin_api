@@ -1,0 +1,36 @@
+@BASE_URL=http://localhost:3003
+@ADMINS_BASE_URL={{BASE_URL}}/api/admins
+@cookie=jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGZhMDZhYzlmMGFhMTgyYzAxNTNmNzIiLCJpYXQiOjE2OTQxMDc1NzF9.nFBOfuUmHw24KkUhwd3AeuWCY9TKP4ZykBcOER6i8oM;
+
+### ping
+GET {{BASE_URL}}/node HTTP/1.1
+
+### signup - creates a new admin account
+POST {{ADMINS_BASE_URL}}/signup HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "password"
+}
+
+### login - let admins log in
+POST {{ADMINS_BASE_URL}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "password"
+}
+
+### get admin
+GET {{ADMINS_BASE_URL}} HTTP/1.1
+Content-Type: application/json
+Cookie: {{cookie}}
+
+### getAdmins - get all admins in the system
+GET {{ADMINS_BASE_URL}}/list HTTP/1.1
+Cookie: {{cookie}}
+
+### logout for admins
+POST {{ADMINS_BASE_URL}}/logout HTTP/1.1

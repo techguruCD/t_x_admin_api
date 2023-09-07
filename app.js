@@ -1,12 +1,13 @@
-const connectToDB = require("./db/connection");
-const express = require("express");
-const app = express();
-const users = require("./routes/user");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
 require("dotenv").config();
-const port = 3003;
+const express = require("express");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
+const admins = require("./routes/admin");
+
+const app = express();
+const port = 3003;
 // middleware
 app.use(express.json());
 app.use(cookieParser());
@@ -21,17 +22,18 @@ app.use(
   })
 );
 
-app.get("/node", (req, res) => res.send("Hello"));
-app.use("/api/users", users);
+app.get("/node", (_req, _res) => _res.send("Hello"));
+app.use("/api/admins", admins);
 
-const startConnection = async () => {
-  try {
-    await connectToDB(process.env.MONGO_URL);
+(() => {
+  mongoose.set('strictQuery', true);
+  mongoose.connect(process.env.MONGO_URL).then(db => {
+    console.log(`[info] connected to ${db.connection.db.databaseName}`);
     app.listen(port, () =>
-      console.log(`Example app listening on port ${port}!`)
+      console.log(`Express App listening on port ${port}!`)
     );
-  } catch (err) {
-    console.log(err);
-  }
-};
-startConnection();
+  }).catch(error => {
+    console.log(`[error], ${error}`);
+    process.exit(1);
+  })
+})();
