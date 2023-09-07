@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const admins = require("./routes/admin");
+const users = require('./routes/user');
 
 const app = express();
 const port = 3003;
@@ -24,6 +25,7 @@ app.use(
 
 app.get("/node", (_req, _res) => _res.send("Hello"));
 app.use("/api/admins", admins);
+app.use("/api/users", users);
 
 (() => {
   mongoose.set('strictQuery', true);

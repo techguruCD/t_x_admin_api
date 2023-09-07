@@ -1,5 +1,6 @@
 @BASE_URL=http://localhost:3003
 @ADMINS_BASE_URL={{BASE_URL}}/api/admins
+@USERS_BASE_URL={{BASE_URL}}/api/users
 @cookie=jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGZhMDZhYzlmMGFhMTgyYzAxNTNmNzIiLCJpYXQiOjE2OTQxMDc1NzF9.nFBOfuUmHw24KkUhwd3AeuWCY9TKP4ZykBcOER6i8oM;
 
 ### ping
@@ -34,3 +35,11 @@ Cookie: {{cookie}}
 
 ### logout for admins
 POST {{ADMINS_BASE_URL}}/logout HTTP/1.1
+
+### get a specific user
+GET {{USERS_BASE_URL}}?userId=urSJdfZEfKVxkTe4H34KajI47ff1 HTTP/1.1
+Cookie: {{cookie}}
+
+### get all users
+GET {{USERS_BASE_URL}}/list?skip=0 HTTP/1.1
+Cookie: {{cookie}}
