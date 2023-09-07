@@ -1,10 +1,25 @@
 const bcrypt = require("bcryptjs");
 const AdminModel = require("../models/admin");
 
+const getAdmin = async (req, res) => {
+  try {
+    const adminId = req.admin._id;
+    const admin = await AdminModel.findOne({ _id: adminId }, { password: 0 }).lean();
+
+    if (!admin) {
+      return res.status(404).json({ msg: 'admin not found' });
+    }
+
+    return res.status(200).json({ email: admin.email });
+  } catch (e) {
+    return res.status(500).json({ msg: e });
+  }
+};
+
 //list
 const getAdminList = async (req, res) => {
   try {
-    const admins = await AdminModel.find({});
+    const admins = await AdminModel.find({}, { password: 0 }).lean();
     res.status(200).json({ admins });
   } catch (err) {
     res.status(500).json({ msg: err });
@@ -33,6 +48,7 @@ const adminSignup = async (req, res) => {
 };
 
 module.exports = {
+  getAdmin,
   getAdminList,
   adminSignup,
 };

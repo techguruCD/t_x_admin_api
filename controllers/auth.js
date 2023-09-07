@@ -44,25 +44,6 @@ const adminLogin = async (req, res) => {
   }
 };
 
-const getAdmin = async (req, res) => {
-  try {
-    const cookie = req.cookies["jwt"];
-    const claims = jwt.verify(cookie, `${process.env.JWT_SECRET}`);
-    if (!claims) {
-      return res.status(401).send({ msg: "unauthenticated" });
-    }
-    const admin = await AdminModel.findOne({ _id: claims._id }, { password: 0 }).lean();
-
-    if (!admin) {
-      return res.status(404).json({ msg: 'admin not found' });
-    }
-
-    return res.status(200).json({email: admin.email});
-  } catch (e) {
-    return res.status(401).send({ msg: "unauthenticated" });
-  }
-};
-
 //logout
 const adminLogout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 0 });
@@ -71,6 +52,5 @@ const adminLogout = (req, res) => {
 
 module.exports = {
   adminLogin,
-  getAdmin,
   adminLogout,
 };
