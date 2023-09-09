@@ -1,9 +1,10 @@
 const express = require("express");
+const authMiddleware = require("../middlewares/auth.middleware");
 const { getCGInfoList } = require("../controllers/cgInfo");
 
 const router = express.Router();
 
-//list
-router.route("/cgInfo-list").get(getCGInfoList);
+// Get list of CGInfo
+router.route("/list").get(getCGInfoList);
 
 module.exports = router;

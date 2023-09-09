@@ -11,7 +11,17 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-  }
+  },
+  firstname: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  lastname: {
+    type: String,
+    required: true,
+    trim: true,
+  },
 });
 
 const AdminModel = mongoose.model("Admins", AdminSchema, "Admins");

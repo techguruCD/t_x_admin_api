@@ -1,30 +1,27 @@
 const mongoose = require("mongoose");
 
-const devicesSchema = new mongoose.Schema(
-  {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    deviceId: {
-      type: String,
-    },
-    refreshToken: {
-      type: String,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
+const devicesSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
-  { collection: "Devices" }
-);
+  deviceId: {
+    type: String,
+  },
+  refreshToken: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-const Devices = mongoose.model("Devices", devicesSchema);
+const DevicesModel = mongoose.model("Devices", devicesSchema, "Devices");
 
-module.exports = { Devices };
+module.exports = { DevicesModel };

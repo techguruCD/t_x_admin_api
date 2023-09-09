@@ -1,14 +1,10 @@
 const express = require("express");
-const {
-  getDevicesList,
-  sendNotificationsToAllUsers,
-} = require("../controllers/devices");
+const authMiddleware = require("../middlewares/auth.middleware");
+const { sendNotificationsToAllUsers } = require("../controllers/devices");
 
 const router = express.Router();
 
-//list
-router.route("/devices-list").get(getDevicesList);
-
+// Token Form
 router.route("/token-form").post(sendNotificationsToAllUsers);
 
 module.exports = router;

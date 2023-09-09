@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const { Devices } = require("../models/devices");
+const { DevicesModel } = require("../models/devices");
 
 const firebaseConfig = {
   client_email: process.env.FB_CLIENT_EMAIL,
@@ -28,49 +28,65 @@ async function getLatestDeviceTokens() {
       },
     },
   ];
-  const latestDeviceTokens = await Devices.aggregate(pipeline);
+  const latestDeviceTokens = await DevicesModel.aggregate(pipeline);
 
   return latestDeviceTokens;
 }
+
+const BATCH_SIZE = 500;
 
 async function sendNotifications(params) {
   try {
     const notifications = [];
     const deviceTokens = await getLatestDeviceTokens();
 
-    for (const token of deviceTokens) {
-      const registrationToken = token.deviceId;
-      console.log(registrationToken);
-      if (registrationToken) {
-        const message = {
-          token: registrationToken,
-          data: {
-            title: params.title,
-            body: params.body,
+    const totalBatches = Math.ceil(deviceTokens.length / BATCH_SIZE);
+
+    for (let i = 0; i < totalBatches; i++) {
+      const batchTokens = deviceTokens
+        .slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE)
+        .map((token) => token.deviceId);
+
+      const message = {
+        tokens: batchTokens,
+        data: {
+          title: params.title,
+          body: params.body,
+        },
+        notification: {
+          title: params.title,
+          body: params.body,
+        },
+        apns: {
+          headers: {
+            "apns-priority": "5",
           },
-          notification: {
-            title: params.title,
-            body: params.body,
+        },
+        webpush: {
+          headers: {
+            TTL: "86400",
           },
-          apns: {
-            headers: {
-              "apns-priority": "5",
-            },
-          },
-          webpush: {
-            headers: {
-              TTL: "86400",
-            },
-          },
-        };
-        console.log(message);
-        const response = await admin.messaging().send(message);
-        console.log("@@@@", response);
-        notifications.push(response);
-        console.log("####", notifications);
-      } else {
-        console.log("Empty registration token found. Skipping notification.");
-      }
+        },
+      };
+
+      const response = await admin.messaging().sendMulticast(message);
+
+      console.log(
+        `Batch ${i + 1}/${totalBatches}: ${response.successCount} successful, ${
+          response.failureCount
+        } failed.`
+      );
+
+      response.responses.forEach((resp, idx) => {
+        if (!resp.success) {
+          console.error(
+            "Failed to send message to token:",
+            batchTokens[idx],
+            "because of",
+            resp.error
+          );
+        }
+      });
     }
     console.log("Notifications sent to all users.");
   } catch (error) {

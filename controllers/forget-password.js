@@ -1,6 +1,6 @@
-const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
+const AdminModel = require("../models/admin");
 
 //password verify
 const sendResetPasswordMail = async (name, email, token) => {
@@ -42,10 +42,10 @@ const sendResetPasswordMail = async (name, email, token) => {
 const forgetPassword = async (req, res) => {
   try {
     const email = req.body.email;
-    const userData = await User.findOne({ email: email });
+    const userData = await AdminModel.findOne({ email: email });
     if (userData) {
       const randomString = randomstring.generate();
-      const data = await User.updateOne(
+      const data = await AdminModel.updateOne(
         { email: email },
         { $set: { token: randomString } }
       );
@@ -68,11 +68,11 @@ const forgetPassword = async (req, res) => {
 const resetPassword = async (req, res) => {
   try {
     const token = req.query.token;
-    const tokenData = await User.findOne({ token: token });
+    const tokenData = await AdminModel.findOne({ token: token });
     if (tokenData) {
       const password = req.body.password;
       const newPassword = await hashedPassword(password);
-      const userData = await User.findByIdAndUpdate(
+      const userData = await AdminModel.findByIdAndUpdate(
         { _id: tokenData._id },
         { $set: { password: newPassword, token: "" } },
         { new: true }

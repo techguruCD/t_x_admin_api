@@ -1,15 +1,5 @@
-const { Devices } = require("../models/devices");
+const { DevicesModel } = require("../models/devices");
 const { sendNotifications } = require("./firebaseAuth");
-
-//list
-const getDevicesList = async (req, res) => {
-  try {
-    const data = await Devices.find({}).limit(10);
-    res.status(200).json({ data });
-  } catch (err) {
-    res.status(500).json({ msg: err });
-  }
-};
 
 // token-form
 const sendNotificationsToAllUsers = async (req, res) => {
@@ -31,6 +21,5 @@ const sendNotificationsToAllUsers = async (req, res) => {
 };
 
 module.exports = {
-  getDevicesList,
   sendNotificationsToAllUsers,
 };
