@@ -52,10 +52,12 @@ async function sendNotifications(params) {
         data: {
           title: params.title,
           body: params.body,
+          imageUrl: params.imageUrl,
         },
         notification: {
           title: params.title,
           body: params.body,
+          imageUrl: params.imageUrl,
         },
         apns: {
           headers: {

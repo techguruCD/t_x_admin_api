@@ -1,14 +1,14 @@
-const { DevicesModel } = require("../models/devices");
 const { sendNotifications } = require("./firebaseAuth");
 
 // token-form
-const sendNotificationsToAllUsers = async (req, res) => {
-  const { title, body } = req.body;
+const sendNotificationsToAllUsers = (req, res) => {
+  const { title, body, imageUrl } = req.body;
 
   try {
     sendNotifications({
       title: title,
       body: body,
+      imageUrl: imageUrl,
     });
 
   } catch (error) {
