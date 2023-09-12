@@ -5,6 +5,6 @@ const { getBQPairList } = require("../controllers/bqPair");
 const router = express.Router();
 
 // Get list of BQPair
-router.route("/list").get(getBQPairList);
+router.route("/list").get(authMiddleware,getBQPairList);
 
 module.exports = router;
