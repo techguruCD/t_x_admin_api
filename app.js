@@ -7,6 +7,9 @@ const cors = require("cors");
 const admins = require("./routes/admin");
 const users = require("./routes/user");
 const ads = require("./routes/ads");
+const bqPairs = require("./routes/bqPair");
+const cgInfos = require("./routes/cgInfo");
+const devices = require("./routes/devices");
 
 const app = express();
 const port = 3003;
@@ -28,6 +31,9 @@ app.get("/node", (_req, _res) => _res.send("Hello"));
 app.use("/api/admins", admins);
 app.use("/api/users", users);
 app.use("/api/ads", ads);
+app.use("/api/bqPairs", bqPairs);
+app.use("/api/cgInfos", cgInfos);
+app.use("/api/devices", devices);
 
 (() => {
   mongoose.set('strictQuery', true);
