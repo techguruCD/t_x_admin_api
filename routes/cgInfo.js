@@ -5,6 +5,6 @@ const { getCGInfoList } = require("../controllers/cgInfo");
 const router = express.Router();
 
 // Get list of CGInfo
-router.route("/list").get(getCGInfoList);
+router.route("/list").get(authMiddleware,getCGInfoList);
 
 module.exports = router;
